@@ -1,0 +1,21 @@
+# Trashily — Apache config untuk shared hosting cPanel
+
+# Aktifkan PHP error logging (nonaktifkan display_errors di production)
+php_flag display_errors Off
+php_flag log_errors On
+php_value error_log /home/cpanelusername/logs/php_errors.log
+
+# Charset default
+AddDefaultCharset UTF-8
+
+# Lindungi file sensitif dari akses langsung
+<FilesMatch "\.(sql|md|log|sh|env)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Sembunyikan directory listing
+Options -Indexes
+
+# Pastikan PHP berjalan
+AddType application/x-httpd-php .php

@@ -1,0 +1,19 @@
+{
+  "name": "bank-sampah",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node_modules\\.bin\\tailwindcss.cmd -i ./app.css -o ./assets/css/output.css --watch",
+    "build": "node_modules\\.bin\\tailwindcss.cmd -i ./app.css -o ./assets/css/output.css --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "autoprefixer": "^10.5.4",
+    "postcss": "^8.5.26",
+    "tailwindcss": "^4.3.3"
+  }
+}
