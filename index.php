@@ -1394,7 +1394,48 @@ if ($ulasan_table_exists) {
             </div>
         </div>
     </footer>
+    <!-- ==================== POPUP NEWS SMARTKOLECER ==================== -->
+    <div id="kolecerPopup" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="kolecerPopupTitle">
+        <!-- Backdrop -->
+        <div id="kolecerBackdrop" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
 
+        <!-- Card -->
+        <div id="kolecerCard" class="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden opacity-0 translate-y-6 scale-95 transition-all duration-300">
+            <button type="button" id="kolecerClose" class="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-slate-600 hover:text-slate-900 shadow flex items-center justify-center transition" aria-label="Tutup">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Header visual -->
+            <div class="bg-gradient-to-br from-brand-700 via-brand-600 to-brand-800 px-8 pt-10 pb-8 text-center relative overflow-hidden">
+                <div class="absolute -top-10 -left-10 w-40 h-40 bg-brand-300/20 rounded-full blur-2xl pointer-events-none"></div>
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 border border-white/25 text-white font-bold text-[11px] uppercase tracking-widest">
+                    <i class="fa-solid fa-bolt"></i> Inovasi Baru
+                </span>
+                <!-- TODO: ganti ikon dengan foto: <img src="assets/smartkolecer.png" alt="SmartKolecer" class="mx-auto mt-5 h-32 object-contain"> -->
+                <div class="mx-auto mt-5 w-24 h-24 rounded-3xl bg-white/15 border border-white/25 flex items-center justify-center">
+                    <i class="fa-solid fa-fan text-white text-5xl" style="animation: spin 4s linear infinite"></i>
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div class="px-8 py-7 text-center">
+                <h3 id="kolecerPopupTitle" class="font-display font-extrabold text-2xl text-slate-900">Kenalan dengan SmartKolecer</h3>
+                <p class="mt-3 text-sm text-slate-600 leading-relaxed">
+                    Kolecer berbasis IoT dengan baling-baling dari sampah daur ulang. Sampah yang kamu setor di Trashily bisa jadi bagian dari inovasi ini.
+                </p>
+                <div class="mt-6 flex flex-col gap-3">
+                    <a href="smartkolecer.php" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-md transition hover:-translate-y-0.5">
+                        Pelajari SmartKolecer <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                    <button type="button" id="kolecerLater" class="text-sm font-semibold text-slate-500 hover:text-slate-800 transition">Nanti saja</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
     <!-- ==================== JAVASCRIPT LOGIC ==================== -->
     <script>
         /* Navbar scroll behavior for clean light mode */
@@ -1560,6 +1601,55 @@ if ($ulasan_table_exists) {
                 icon.classList.add('rotate-180');
             }
         }
+
+               /* Popup News SmartKolecer: tampil sekali per sesi browser */
+        (function () {
+            const popup = document.getElementById('kolecerPopup');
+            if (!popup) return;
+            const backdrop = document.getElementById('kolecerBackdrop');
+            const card = document.getElementById('kolecerCard');
+            const KEY = 'kolecerPopupSeen';
+
+            function seen() {
+                try { return sessionStorage.getItem(KEY) === '1'; } catch (e) { return false; }
+            }
+            function markSeen() {
+                try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+            }
+
+            function openPopup() {
+                popup.classList.remove('hidden');
+                popup.classList.add('flex');
+                document.body.classList.add('overflow-hidden');
+                requestAnimationFrame(() => {
+                    backdrop.classList.remove('opacity-0');
+                    card.classList.remove('opacity-0', 'translate-y-6', 'scale-95');
+                });
+            }
+
+            function closePopup() {
+                markSeen();
+                backdrop.classList.add('opacity-0');
+                card.classList.add('opacity-0', 'translate-y-6', 'scale-95');
+                document.body.classList.remove('overflow-hidden');
+                setTimeout(() => {
+                    popup.classList.add('hidden');
+                    popup.classList.remove('flex');
+                }, 300);
+            }
+
+            document.getElementById('kolecerClose').addEventListener('click', closePopup);
+            document.getElementById('kolecerLater').addEventListener('click', closePopup);
+            backdrop.addEventListener('click', closePopup);
+            document.addEventListener('keydown', e => { if (e.key === 'Escape' && !popup.classList.contains('hidden')) closePopup(); });
+
+            // Tombol "Pelajari" juga dianggap sudah dilihat
+            popup.querySelector('a[href="smartkolecer.php"]').addEventListener('click', markSeen);
+
+            // Tampil 1 detik setelah halaman dibuka. Tambahkan ?popup=1 di URL untuk memaksa tampil (untuk tes).
+            const force = new URLSearchParams(location.search).get('popup') === '1';
+            if (force || !seen()) setTimeout(openPopup, 1000);
+        })(); 
     </script>
 </body>
 
