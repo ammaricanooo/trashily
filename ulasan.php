@@ -98,6 +98,7 @@ $approved_reviews = $conn->query("SELECT ul.nama, ul.rating, ul.komentar, ul.cre
                     <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 min-w-[160px] opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-200 rounded-xl border border-slate-200 bg-white shadow-lg p-1">
                         <a href="harga.php" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-brand-700">Daftar Harga</a>
                         <a href="ulasan.php" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-900 bg-brand-50 hover:bg-brand-100 text-brand-800">Ulasan</a>
+                        <a href="smartkolecer.php" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-brand-700">SmartKolecer</a>
                     </div>
                 </div>
                 <a href="index.php#ekosistem" class="text-sm font-semibold text-slate-700 hover:text-brand-700 transition-colors px-3 py-1.5">Keunggulan</a>
@@ -131,6 +132,7 @@ $approved_reviews = $conn->query("SELECT ul.nama, ul.rating, ul.komentar, ul.cre
                 <a href="index.php#katalog" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-slate-100">Direktori Sampah</a>
                 <a href="harga.php" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-slate-100">Daftar Harga</a>
                 <a href="ulasan.php" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-brand-50 text-brand-700">Ulasan</a>
+                <a href="smartkolecer.php" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-slate-100">SmartKolecer</a>
                 <a href="index.php#ekosistem" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-slate-100">Keunggulan</a>
                 <a href="index.php#rewards" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-slate-100">Hadiah</a>
                 <a href="index.php#faq" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-slate-100">FAQ</a>
