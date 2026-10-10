@@ -1394,41 +1394,35 @@ if ($ulasan_table_exists) {
             </div>
         </div>
     </footer>
-    <!-- ==================== POPUP NEWS SMARTKOLECER ==================== -->
-    <div id="kolecerPopup" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="kolecerPopupTitle">
-        <!-- Backdrop -->
-        <div id="kolecerBackdrop" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+        <!-- ==================== POPUP INFORMASI (KOLABORASI) ==================== -->
+    <div id="infoPopup" class="fixed inset-0 z-[60] hidden items-end sm:items-center justify-center p-0 sm:p-4" role="dialog" aria-modal="true" aria-label="Informasi Trashily">
+        <div id="infoBackdrop" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
 
-        <!-- Card -->
-        <div id="kolecerCard" class="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden opacity-0 translate-y-6 scale-95 transition-all duration-300">
-            <button type="button" id="kolecerClose" class="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-slate-600 hover:text-slate-900 shadow flex items-center justify-center transition" aria-label="Tutup">
+        <div id="infoCard" class="relative w-full max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden opacity-0 translate-y-6 transition-all duration-300">
+            <button type="button" id="infoClose" class="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-slate-600 hover:text-slate-900 shadow flex items-center justify-center transition" aria-label="Tutup">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
-            <!-- Header visual -->
             <div class="bg-gradient-to-br from-brand-700 via-brand-600 to-brand-800 px-8 pt-10 pb-8 text-center relative overflow-hidden">
                 <div class="absolute -top-10 -left-10 w-40 h-40 bg-brand-300/20 rounded-full blur-2xl pointer-events-none"></div>
-                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 border border-white/25 text-white font-bold text-[11px] uppercase tracking-widest">
-                    <i class="fa-solid fa-bolt"></i> Inovasi Baru
-                </span>
-                <!-- TODO: ganti ikon dengan foto: <img src="assets/smartkolecer.png" alt="SmartKolecer" class="mx-auto mt-5 h-32 object-contain"> -->
+                <span id="infoBadge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 border border-white/25 text-white font-bold text-[11px] uppercase tracking-widest"></span>
                 <div class="mx-auto mt-5 w-24 h-24 rounded-3xl bg-white/15 border border-white/25 flex items-center justify-center">
-                    <i class="fa-solid fa-fan text-white text-5xl" style="animation: spin 4s linear infinite"></i>
+                    <i id="infoIcon" class="fa-solid text-white text-5xl"></i>
                 </div>
             </div>
 
-            <!-- Body -->
-            <div class="px-8 py-7 text-center">
-                <h3 id="kolecerPopupTitle" class="font-display font-extrabold text-2xl text-slate-900">Kenalan dengan SmartKolecer</h3>
-                <p class="mt-3 text-sm text-slate-600 leading-relaxed">
-                    Kolecer berbasis IoT dengan baling-baling dari sampah daur ulang. Sampah yang kamu setor di Trashily bisa jadi bagian dari inovasi ini.
-                </p>
-                <div class="mt-6 flex flex-col gap-3">
-                    <a href="smartkolecer.php" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-md transition hover:-translate-y-0.5">
-                        Pelajari SmartKolecer <i class="fa-solid fa-arrow-right text-xs"></i>
-                    </a>
-                    <button type="button" id="kolecerLater" class="text-sm font-semibold text-slate-500 hover:text-slate-800 transition">Nanti saja</button>
-                </div>
+            <div class="px-8 pt-7 pb-4 text-center min-h-[250px] flex flex-col">
+                <h3 id="infoTitle" class="font-display font-extrabold text-2xl text-slate-900"></h3>
+                <p id="infoText" class="mt-3 text-sm text-slate-600 leading-relaxed flex-1"></p>
+                <a id="infoCta" href="#" class="mt-6 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-md transition hover:-translate-y-0.5">
+                    <span id="infoCtaText"></span> <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+
+            <div class="px-6 pb-5 flex items-center justify-between">
+                <button type="button" id="infoPrev" class="w-9 h-9 rounded-full border border-slate-200 text-slate-600 hover:bg-slate-100 transition" aria-label="Sebelumnya"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                <div id="infoDots" class="flex items-center gap-2"></div>
+                <button type="button" id="infoNext" class="w-9 h-9 rounded-full border border-slate-200 text-slate-600 hover:bg-slate-100 transition" aria-label="Berikutnya"><i class="fa-solid fa-chevron-right text-xs"></i></button>
             </div>
         </div>
     </div>
@@ -1602,54 +1596,114 @@ if ($ulasan_table_exists) {
             }
         }
 
-               /* Popup News SmartKolecer: tampil sekali per sesi browser */
+               /* Popup Informasi: 4 slide, tampil sekali per sesi browser */
         (function () {
-            const popup = document.getElementById('kolecerPopup');
+            const popup = document.getElementById('infoPopup');
             if (!popup) return;
-            const backdrop = document.getElementById('kolecerBackdrop');
-            const card = document.getElementById('kolecerCard');
-            const KEY = 'kolecerPopupSeen';
+            const backdrop = document.getElementById('infoBackdrop');
+            const card = document.getElementById('infoCard');
+            const KEY = 'infoPopupSeen';
 
-            function seen() {
-                try { return sessionStorage.getItem(KEY) === '1'; } catch (e) { return false; }
+            // TODO: pastikan isi tiap slide sudah disetujui masing-masing kolaborator
+            const slides = [
+                { badge: 'Inovasi Baru', icon: 'fa-fan', spin: true,
+                  title: 'Kenalan dengan SmartKolecer',
+                  text: 'Kolecer berbasis IoT dengan baling-baling dari sampah daur ulang. Sampah yang kamu setor di Trashily bisa jadi bagian dari inovasi ini.',
+                  cta: 'Pelajari SmartKolecer', href: 'smartkolecer.php', ext: false },
+                { badge: 'Sampah Organik', icon: 'fa-seedling',
+                  title: 'Organikmu Disalurkan ke Gembul',
+                  text: 'Sampah organik yang masuk lewat Trashily disalurkan ke Gembul, mitra kami yang mengelola sampah organik.',
+                  cta: 'Kenali Gembul', href: 'https://URL-GEMBUL', ext: true },
+                { badge: 'Baju Bekas', icon: 'fa-shirt',
+                  title: 'Donasikan Baju Bekasmu ke Everware',
+                  text: 'Punya pakaian layak pakai yang sudah tidak terpakai? Donasikan lewat Everware, hubungi langsung via WhatsApp.',
+                  cta: 'Hubungi via WhatsApp', href: 'https://wa.me/62XXXXXXXXXX?text=Halo%20Everware%2C%20saya%20dari%20Trashily%20ingin%20donasi%20baju%20bekas', ext: true },
+                { badge: 'Di Rumahmu', icon: 'fa-trash-can',
+                  title: 'Mau Tempat Sampah Pintar?',
+                  text: 'Ingin punya tempat sampah pintar yang bisa memilah sampah langsung di rumah? Hubungi TrashSmart.',
+                  cta: 'Hubungi TrashSmart', href: 'https://URL-TRASHSMART', ext: true },
+            ];
+
+            const el = id => document.getElementById(id);
+            const dots = el('infoDots');
+            let idx = 0;
+
+            slides.forEach((_, i) => {
+                const d = document.createElement('button');
+                d.type = 'button';
+                d.setAttribute('aria-label', 'Slide ' + (i + 1));
+                d.className = 'h-2 rounded-full transition-all duration-300';
+                d.addEventListener('click', () => show(i));
+                dots.appendChild(d);
+            });
+
+            function show(i) {
+                idx = (i + slides.length) % slides.length;
+                const s = slides[idx];
+                el('infoBadge').innerHTML = '<i class="fa-solid fa-bolt"></i> ' + s.badge;
+                el('infoIcon').className = 'fa-solid ' + s.icon + ' text-white text-5xl';
+                el('infoIcon').style.animation = s.spin ? 'spin 4s linear infinite' : 'none';
+                el('infoTitle').textContent = s.title;
+                el('infoText').textContent = s.text;
+                el('infoCtaText').textContent = s.cta;
+                const cta = el('infoCta');
+                cta.href = s.href;
+                if (s.ext) { cta.target = '_blank'; cta.rel = 'noopener'; }
+                else { cta.removeAttribute('target'); cta.removeAttribute('rel'); }
+                [...dots.children].forEach((d, k) => {
+                    d.className = 'h-2 rounded-full transition-all duration-300 ' + (k === idx ? 'w-6 bg-brand-600' : 'w-2 bg-slate-300 hover:bg-slate-400');
+                });
             }
-            function markSeen() {
-                try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
-            }
+
+            const seen = () => { try { return sessionStorage.getItem(KEY) === '1'; } catch (e) { return false; } };
+            const markSeen = () => { try { sessionStorage.setItem(KEY, '1'); } catch (e) {} };
 
             function openPopup() {
+                show(0);
                 popup.classList.remove('hidden');
                 popup.classList.add('flex');
                 document.body.classList.add('overflow-hidden');
                 requestAnimationFrame(() => {
                     backdrop.classList.remove('opacity-0');
-                    card.classList.remove('opacity-0', 'translate-y-6', 'scale-95');
+                    card.classList.remove('opacity-0', 'translate-y-6');
                 });
             }
 
             function closePopup() {
                 markSeen();
                 backdrop.classList.add('opacity-0');
-                card.classList.add('opacity-0', 'translate-y-6', 'scale-95');
+                card.classList.add('opacity-0', 'translate-y-6');
                 document.body.classList.remove('overflow-hidden');
-                setTimeout(() => {
-                    popup.classList.add('hidden');
-                    popup.classList.remove('flex');
-                }, 300);
+                setTimeout(() => { popup.classList.add('hidden'); popup.classList.remove('flex'); }, 300);
             }
 
-            document.getElementById('kolecerClose').addEventListener('click', closePopup);
-            document.getElementById('kolecerLater').addEventListener('click', closePopup);
+            el('infoClose').addEventListener('click', closePopup);
             backdrop.addEventListener('click', closePopup);
-            document.addEventListener('keydown', e => { if (e.key === 'Escape' && !popup.classList.contains('hidden')) closePopup(); });
+            el('infoPrev').addEventListener('click', () => show(idx - 1));
+            el('infoNext').addEventListener('click', () => show(idx + 1));
+            el('infoCta').addEventListener('click', markSeen);
 
-            // Tombol "Pelajari" juga dianggap sudah dilihat
-            popup.querySelector('a[href="smartkolecer.php"]').addEventListener('click', markSeen);
+            document.addEventListener('keydown', e => {
+                if (popup.classList.contains('hidden')) return;
+                if (e.key === 'Escape') closePopup();
+                if (e.key === 'ArrowRight') show(idx + 1);
+                if (e.key === 'ArrowLeft') show(idx - 1);
+            });
 
-            // Tampil 1 detik setelah halaman dibuka. Tambahkan ?popup=1 di URL untuk memaksa tampil (untuk tes).
+            // Geser di HP
+            let startX = null;
+            card.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+            card.addEventListener('touchend', e => {
+                if (startX === null) return;
+                const dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 50) show(idx + (dx < 0 ? 1 : -1));
+                startX = null;
+            });
+
+            // ?popup=1 memaksa tampil (untuk tes)
             const force = new URLSearchParams(location.search).get('popup') === '1';
             if (force || !seen()) setTimeout(openPopup, 1000);
-        })(); 
+        })();
     </script>
 </body>
 
