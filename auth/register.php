@@ -3,7 +3,12 @@ session_start();
 require_once '../config/database.php';
 
 if (isset($_SESSION['user_id'])) {
-    header('Location: ../' . ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' : 'customer/dashboard.php'));
+    $from_everwear = isset($_GET['from']) && $_GET['from'] === 'everwear';
+    if ($from_everwear && $_SESSION['role'] === 'customer') {
+        header('Location: ../everwear/dashboard.php');
+    } else {
+        header('Location: ../' . ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' : 'customer/dashboard.php'));
+    }
     exit;
 }
 
@@ -38,7 +43,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $conn->prepare("INSERT INTO users (nama, email, password, no_hp, alamat, role) VALUES (?, ?, ?, ?, ?, 'customer')");
             $stmt->bind_param('sssss', $nama, $email, $hashed, $no_hp, $alamat);
             if ($stmt->execute()) {
-                $success = 'Akun berhasil dibuat! Silakan masuk.';
+                $from_everwear = isset($_GET['from']) && $_GET['from'] === 'everwear';
+                if ($from_everwear) {
+                    $_SESSION['user_id']   = $stmt->insert_id;
+                    $_SESSION['nama']      = $nama;
+                    $_SESSION['email']     = $email;
+                    $_SESSION['role']      = 'customer';
+                    $_SESSION['poin']      = 0;
+                    header('Location: ../everwear/dashboard.php');
+                    exit;
+                } else {
+                    $success = 'Akun berhasil dibuat! Silakan masuk.';
+                }
             } else {
                 $error = 'Terjadi kesalahan, silakan coba lagi.';
             }

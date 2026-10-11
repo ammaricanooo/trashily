@@ -54,6 +54,9 @@ if (isset($conn) && isset($_SESSION['user_id'])) {
                 <span class="nav-badge-pill"><?= $c_active_jemput ?></span>
                 <?php endif; ?>
             </a>
+            <a href="<?= BASE_URL ?>/everwear/dashboard.php" class="nav-item">
+                <i class="fa-solid fa-shirt"></i> Ke Everwear
+            </a>
             <a href="<?= BASE_URL ?>/customer/penukaran.php" class="nav-item <?= ($current === 'penukaran.php') ? 'active' : '' ?>">
                 <i class="fa-solid fa-gift"></i>
                 <span style="flex:1">Tukar Poin</span>

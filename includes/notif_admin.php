@@ -6,8 +6,20 @@ if (!isset($conn)) {
 $notif_jemput_count = 0;
 $notif_penukaran_count = 0;
 $notif_items = [];
+$isEverwear = strpos($_SERVER['REQUEST_URI'] ?? '', '/admin/everwear/') !== false;
 
-if (isset($conn)) {
+if (isset($conn) && $isEverwear) {
+    $res = $conn->query("SELECT j.id, j.kode_jemput, j.created_at, j.status, u.nama FROM everwear_jemput j JOIN users u ON u.id=j.customer_id WHERE j.status IN ('pending','dikonfirmasi','dalam_perjalanan') ORDER BY j.created_at DESC LIMIT 5");
+    if ($res) while ($r = $res->fetch_assoc()) {
+        if ($r['status'] === 'pending') $notif_jemput_count++;
+        $notif_items[] = ['type'=>'jemput','id'=>$r['id'],'kode'=>$r['kode_jemput'],'nama'=>$r['nama'],'status'=>$r['status'],'time'=>$r['created_at'],'url'=>BASE_URL.'/admin/everwear/jemput-sampah.php','icon'=>'fa-shirt','title'=>'Jemput Pakaian','subtitle'=>$r['nama'].' ('.$r['kode_jemput'].')'];
+    }
+    $res = $conn->query("SELECT t.id, t.kode_transaksi, t.created_at, t.status, u.nama FROM everwear_transaksi t JOIN users u ON u.id=t.customer_id WHERE t.status='pending' ORDER BY t.created_at DESC LIMIT 5");
+    if ($res) while ($r = $res->fetch_assoc()) {
+        $notif_penukaran_count++;
+        $notif_items[] = ['type'=>'transaksi','id'=>$r['id'],'kode'=>$r['kode_transaksi'],'nama'=>$r['nama'],'status'=>'pending','time'=>$r['created_at'],'url'=>BASE_URL.'/admin/everwear/transaksi.php','icon'=>'fa-shirt','title'=>'Donasi Pakaian Baru','subtitle'=>$r['nama'].' ('.$r['kode_transaksi'].')'];
+    }
+} elseif (isset($conn)) {
     // 1. Permintaan Jemput Sampah baru / belum selesai
     $res_j = $conn->query("SELECT js.id, js.kode_jemput, js.created_at, js.status, u.nama 
                            FROM jemput_sampah js 
@@ -107,7 +119,7 @@ $total_notif_badge = $notif_jemput_count + $notif_penukaran_count;
         </div>
 
         <div class="notif-dd-footer">
-            <a href="<?= BASE_URL ?>/admin/jemput-sampah.php">Jemput Sampah</a>
+            <a href="<?= BASE_URL . ($isEverwear ? '/admin/everwear/jemput-sampah.php' : '/admin/jemput-sampah.php') ?>"><?= $isEverwear ? 'Jemput Pakaian' : 'Jemput Sampah' ?></a>
             <span style="color:var(--border)">•</span>
             <a href="<?= BASE_URL ?>/admin/penukaran.php">Penukaran Hadiah</a>
         </div>

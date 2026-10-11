@@ -9,8 +9,20 @@ if (!isset($conn)) {
 $c_uid = $_SESSION['user_id'] ?? 0;
 $c_notif_items = [];
 $c_unread_count = 0;
+$isEverwear = strpos($_SERVER['REQUEST_URI'] ?? '', '/everwear/') !== false;
 
-if ($c_uid && isset($conn)) {
+if ($c_uid && isset($conn) && $isEverwear) {
+    $res = $conn->query("SELECT id, kode_jemput, status, created_at FROM everwear_jemput WHERE customer_id=$c_uid ORDER BY created_at DESC LIMIT 5");
+    if ($res) while ($r = $res->fetch_assoc()) {
+        if (!in_array($r['status'], ['selesai','dibatalkan'], true)) $c_unread_count++;
+        $c_notif_items[] = ['type'=>'jemput','id'=>$r['id'],'kode'=>$r['kode_jemput'],'status'=>$r['status'],'title'=>'Jemput Pakaian '.$r['kode_jemput'],'desc'=>'Status: '.ucwords(str_replace('_',' ',$r['status'])),'time'=>$r['created_at'],'url'=>BASE_URL.'/everwear/jemput.php','icon'=>'fa-shirt','color'=>'blue'];
+    }
+    $res = $conn->query("SELECT id, kode_transaksi, status, created_at FROM everwear_transaksi WHERE customer_id=$c_uid ORDER BY created_at DESC LIMIT 5");
+    if ($res) while ($r = $res->fetch_assoc()) {
+        if (!in_array($r['status'], ['selesai','dibatalkan'], true)) $c_unread_count++;
+        $c_notif_items[] = ['type'=>'donasi','id'=>$r['id'],'kode'=>$r['kode_transaksi'],'status'=>$r['status'],'title'=>'Donasi Pakaian '.$r['kode_transaksi'],'desc'=>'Status: '.ucwords(str_replace('_',' ',$r['status'])),'time'=>$r['created_at'],'url'=>BASE_URL.'/everwear/setor.php','icon'=>'fa-shirt','color'=>'blue'];
+    }
+} elseif ($c_uid && isset($conn)) {
     // 1. Status Permintaan Jemput Sampah Customer
     $res_j = $conn->query("SELECT id, kode_jemput, status, jadwal_jemput, created_at, catatan_admin 
                            FROM jemput_sampah 
@@ -149,7 +161,7 @@ if ($c_uid && isset($conn)) {
         </div>
 
         <div class="notif-dd-footer">
-            <a href="<?= BASE_URL ?>/customer/jemput.php">Jemput Sampah</a>
+            <a href="<?= BASE_URL . ($isEverwear ? '/everwear/jemput.php' : '/customer/jemput.php') ?>"><?= $isEverwear ? 'Jemput Pakaian' : 'Jemput Sampah' ?></a>
             <span style="color:var(--border)">•</span>
             <a href="<?= BASE_URL ?>/customer/penukaran.php">Tukar Poin</a>
         </div>

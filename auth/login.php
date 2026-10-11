@@ -3,7 +3,12 @@ session_start();
 require_once '../config/database.php';
 
 if (isset($_SESSION['user_id'])) {
-    header('Location: ../' . ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' : 'customer/dashboard.php'));
+    $from_everwear = isset($_GET['from']) && $_GET['from'] === 'everwear';
+    if ($from_everwear) {
+        header('Location: ../' . ($_SESSION['role'] === 'admin' ? 'admin/everwear/dashboard.php' : 'everwear/dashboard.php'));
+    } else {
+        header('Location: ../' . ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' : 'customer/dashboard.php'));
+    }
     exit;
 }
 
@@ -30,7 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['role']      = $user['role'];
             $_SESSION['poin']      = $user['poin'];
 
-            $redirect = $user['role'] === 'admin' ? '../admin/dashboard.php' : '../customer/dashboard.php';
+            $from_everwear = isset($_POST['from_everwear']) && $_POST['from_everwear'] === '1';
+            if ($from_everwear) {
+                $redirect = $user['role'] === 'admin' ? '../admin/everwear/dashboard.php' : '../everwear/dashboard.php';
+            } else {
+                $redirect = $user['role'] === 'admin' ? '../admin/dashboard.php' : '../customer/dashboard.php';
+            }
             header('Location: ' . $redirect);
             exit;
         } else {
@@ -479,6 +489,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <form method="POST" autocomplete="off">
+                <?php if (isset($_GET['from']) && $_GET['from'] === 'everwear'): ?>
+                <input type="hidden" name="from_everwear" value="1">
+                <?php endif; ?>
                 <div class="form-group">
                     <label for="email">Alamat Email</label>
                     <div class="input-wrap">

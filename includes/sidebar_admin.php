@@ -83,6 +83,9 @@ if (isset($conn)) {
                 <i class="fa-solid fa-gamepad"></i>
                 <span>Kegiatan GEMBUL</span>
             </a>
+            <a href="<?= BASE_URL ?>/admin/everwear/dashboard.php" class="nav-item">
+                <i class="fa-solid fa-shirt"></i> Ke Admin Everwear
+            </a>
         </div>
         <div class="nav-section">
             <div class="nav-section-label">Akun</div>

@@ -16,7 +16,12 @@ function requireLogin() {
 function requireAdmin() {
     requireLogin();
     if ($_SESSION['role'] !== 'admin') {
-        header('Location: ' . BASE_URL . '/customer/dashboard.php');
+        // Cek jika sedang di folder everwear
+        if (strpos($_SERVER['REQUEST_URI'], '/everwear/') !== false) {
+            header('Location: ' . BASE_URL . '/everwear/dashboard.php');
+        } else {
+            header('Location: ' . BASE_URL . '/customer/dashboard.php');
+        }
         exit;
     }
 }
@@ -24,7 +29,12 @@ function requireAdmin() {
 function requireCustomer() {
     requireLogin();
     if ($_SESSION['role'] !== 'customer') {
-        header('Location: ' . BASE_URL . '/admin/dashboard.php');
+        // Cek jika sedang di folder everwear
+        if (strpos($_SERVER['REQUEST_URI'], '/admin/everwear/') !== false) {
+            header('Location: ' . BASE_URL . '/admin/everwear/dashboard.php');
+        } else {
+            header('Location: ' . BASE_URL . '/admin/dashboard.php');
+        }
         exit;
     }
 }
