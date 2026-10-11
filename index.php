@@ -358,8 +358,8 @@ if ($ulasan_table_exists) {
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
 
     <!-- ==================== CLEAN NAVBAR ==================== -->
-    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 md:px-10 py-4">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4">
+        <div class="max-w-7xl mx-auto px-4 md:px-10 flex items-center justify-between">
             <!-- Brand Logo -->
             <a href="#" class="flex items-center gap-3 group">
                 <div class="w-10 h-10 rounded-xl overflow-hidden group-hover:scale-105 transition-transform">
@@ -372,19 +372,11 @@ if ($ulasan_table_exists) {
             <nav id="navLinkWrapper" class="hidden lg:flex items-center gap-6 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm px-5 py-2 nav-link-group">
                 <a href="#tentang-kami" class="text-sm font-bold text-white hover:text-brand-200 transition-colors nav-link-item">Tentang Kami</a>
                 <a href="#cara-kerja" class="text-sm font-bold text-white hover:text-brand-200 transition-colors nav-link-item">Cara Kerja</a>
-                <a href="#katalog" class="text-sm font-bold text-white hover:text-brand-200 transition-colors nav-link-item">Direktori Sampah</a>
-                <div class="relative group">
-                    <button type="button" class="flex items-center gap-1.5 text-sm font-bold text-white hover:text-brand-200 transition-colors nav-link-item">
-                        Layanan <i class="fa-solid fa-chevron-down text-[10px] opacity-80"></i>
+                <div id="layananNavTrigger" class="relative group/trigger">
+                    <button type="button" class="flex items-center gap-1.5 text-sm font-bold text-white hover:text-brand-200 transition-colors nav-link-item py-1">
+                        Layanan &amp; Inovasi <i class="fa-solid fa-chevron-down text-[10px] opacity-80 transition-transform duration-200" id="layananChevron"></i>
                     </button>
-                    <div class="absolute left-1/2 -translate-x-1/2 top-full mt-3 min-w-[180px] opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-200 rounded-2xl border border-white/20 bg-white/95 shadow-xl p-2 backdrop-blur-md">
-                        <a href="harga.php" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-800 hover:bg-brand-50 hover:text-brand-800">Daftar Harga</a>
-                        <a href="ulasan.php" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-800 hover:bg-brand-50 hover:text-brand-800">Ulasan</a>
-                       <a href="smartkolecer.php" class="block px-3 py-2 rounded-xl text-sm font-semibold text-slate-800 hover:bg-brand-50 hover:text-brand-800">SmartKolecer</a>
-                    </div>
                 </div>
-                <a href="#ekosistem" class="text-sm font-bold text-white hover:text-brand-200 transition-colors nav-link-item">Keunggulan</a>
-                <a href="#rewards" class="text-sm font-bold text-white hover:text-brand-200 transition-colors nav-link-item">Hadiah</a>
                 <a href="#faq" class="text-sm font-bold text-white hover:text-brand-200 transition-colors nav-link-item">FAQ</a>
             </nav>
 
@@ -410,15 +402,134 @@ if ($ulasan_table_exists) {
             </button>
         </div>
 
+        <!-- Mega Menu Dropdown: Full Width Edge-to-Edge, Direct Child of <header> -->
+        <div id="megaMenuDropdown" class="absolute top-full left-0 right-0 w-full bg-white border-b border-slate-200 shadow-xl rounded-none opacity-0 invisible transition-all duration-200 pointer-events-none z-50 text-left before:content-[''] before:absolute before:-top-6 before:left-0 before:right-0 before:h-6 mt-0 border-t">
+            <div class="max-w-5xl mx-auto px-4 md:px-8 py-6">
+                <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-brand-500"></span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Ekosistem &amp; Layanan Trashily</span>
+                    </div>
+                    <span class="text-xs text-slate-400 font-medium">Inovasi Bank Sampah Digital &bull; Edukasi &bull; IoT</span>
+                </div>
+
+                <!-- 2 Kiri, 2 Kanan Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+                    <!-- Kiri: 2 Inovasi IoT -->
+                    <div class="space-y-2">
+                        <!-- TrashSmart -->
+                        <a href="trashsmart.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
+                            <div class="text-brand-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
+                                <i class="fa-solid fa-trash-can-arrow-up"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-brand-600 transition-colors">TrashSmart</h4>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-brand-50 text-brand-700">Baru &bull; IoT</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    Tempat sampah IoT edukatif dengan baki inspeksi, voice nudge, dan reward instan.
+                                </p>
+                            </div>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
+                        </a>
+
+                        <!-- SmartKolecer -->
+                        <a href="smartkolecer.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
+                            <div class="text-brand-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
+                                <i class="fa-solid fa-fan"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-brand-600 transition-colors">SmartKolecer</h4>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-slate-100 text-slate-600">IoT Edukasi</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    Baling-baling angin dari sampah daur ulang dengan pemantauan sensor digital.
+                                </p>
+                            </div>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
+                        </a>
+                    </div>
+
+                    <!-- Kanan: 2 Layanan & Komunitas -->
+                    <div class="space-y-2">
+                        <!-- Daftar Harga -->
+                        <a href="harga.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
+                            <div class="text-brand-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
+                                <i class="fa-solid fa-tags"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-brand-600 transition-colors">Daftar Harga</h4>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-slate-100 text-slate-600">Katalog</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    Katalog nilai tukar poin dan rupiah transparan per kg untuk tiap kategori sampah.
+                                </p>
+                            </div>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
+                        </a>
+
+                        <!-- Ulasan Komunitas -->
+                        <a href="ulasan.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
+                            <div class="text-brand-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
+                                <i class="fa-solid fa-comments"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-brand-600 transition-colors">Ulasan Komunitas</h4>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-slate-100 text-slate-600">Testimoni</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    Cerita dan testimoni pengalaman nyata warga, sekolah, serta mitra Trashily.
+                                </p>
+                            </div>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Bottom Strip: Fitur & Bagian Terkait yang dipindahkan ke dalam expand -->
+                <div class="mt-4 pt-3.5 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-3">
+                    <span class="text-slate-400 font-medium">Jelajahi Fitur Lainnya:</span>
+                    <div class="flex items-center gap-6 font-semibold">
+                        <a href="#katalog" class="text-slate-600 hover:text-brand-600 transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-recycle text-brand-600 text-xs"></i> Direktori Sampah
+                        </a>
+                        <a href="#ekosistem" class="text-slate-600 hover:text-brand-600 transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-cubes text-brand-600 text-xs"></i> Keunggulan Ekosistem
+                        </a>
+                        <a href="#rewards" class="text-slate-600 hover:text-brand-600 transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-gift text-brand-600 text-xs"></i> Program Hadiah
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Mobile Drawer Navigation -->
         <div id="mobileMenu" class="hidden lg:hidden mt-3 rounded-2xl p-6 space-y-2 bg-white border border-slate-200 mobile-nav-shell">
             <div id="mobileNavWrapper" class="space-y-2 rounded-2xl bg-white py-2 mobile-nav-list">
                 <a href="#tentang-kami" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2.5 border-b border-slate-100">Tentang Kami</a>
                 <a href="#cara-kerja" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2.5 border-b border-slate-100">Cara Kerja</a>
                 <a href="#katalog" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2.5 border-b border-slate-100">Direktori Sampah</a>
-                <a href="harga.php" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2.5 border-b border-slate-100">Daftar Harga</a>
-                <a href="ulasan.php" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2.5 border-b border-slate-100">Ulasan</a>
-                <a href="smartkolecer.php" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2.5 border-b border-slate-100">SmartKolecer</a>
+
+                <!-- Sub-menu Section for Mobile -->
+                <div class="py-2 border-b border-slate-100 space-y-1">
+                    <p class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Layanan &amp; Inovasi</p>
+                    <a href="trashsmart.php" onclick="toggleMobileMenu()" class="flex items-center justify-between text-slate-800 font-bold hover:text-brand-600 text-base py-2">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-trash-can-arrow-up text-brand-600 text-sm"></i> TrashSmart</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-brand-100 text-brand-700">Baru</span>
+                    </a>
+                    <a href="smartkolecer.php" onclick="toggleMobileMenu()" class="flex items-center justify-between text-slate-800 font-bold hover:text-brand-600 text-base py-2">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-fan text-sky-600 text-sm"></i> SmartKolecer</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-sky-100 text-sky-700">IoT</span>
+                    </a>
+                    <a href="harga.php" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2">Daftar Harga</a>
+                    <a href="ulasan.php" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2">Ulasan Pengguna</a>
+                </div>
+
                 <a href="#ekosistem" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2.5 border-b border-slate-100">Keunggulan</a>
                 <a href="#rewards" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2.5 border-b border-slate-100">Hadiah</a>
                 <a href="#faq" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2.5">FAQ</a>
@@ -927,8 +1038,8 @@ if ($ulasan_table_exists) {
 
             <!-- Bento Grid Layout -->
             <div class="grid grid-cols-1 gap-6">
-                <!-- Large Card 1 (Span 2 cols) -->
-                <div class="md:col-span-2 bg-gradient-to-br from-brand-900 via-brand-800 to-brand-950 rounded-3xl p-8 md:p-10 shadow-xl shadow-brand-900/10 text-white relative overflow-hidden group reveal">
+                <!-- Large Card 1 -->
+                <div class="bg-gradient-to-br from-brand-900 via-brand-800 to-brand-950 rounded-3xl p-8 md:p-10 shadow-xl shadow-brand-900/10 text-white relative overflow-hidden group reveal">
                     <div class="absolute top-0 right-0 w-80 h-80 bg-brand-400/10 rounded-full blur-3xl pointer-events-none group-hover:bg-brand-400/20 transition-all"></div>
                     <div class="relative z-10">
                         <span class="px-3 py-1 rounded-full bg-white/10 text-brand-100 font-bold text-xs border border-white/20 mb-6 inline-block">
@@ -953,36 +1064,82 @@ if ($ulasan_table_exists) {
                             </div>
                         </div>
                     </div>
-                                    <!-- Card 2: SmartKolecer -->
-                <div class="bg-brand-50 border border-brand-100 rounded-3xl p-8 md:p-10 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group reveal">
-                    <div class="absolute -right-10 -top-10 w-64 h-64 bg-brand-300/20 rounded-full blur-3xl pointer-events-none"></div>
+                </div>
+
+                <!-- Card 2: TrashSmart IoT Smart Bin -->
+                <div class="bg-gradient-to-br from-emerald-950 via-slate-900 to-teal-950 border border-emerald-500/20 rounded-3xl p-8 md:p-10 shadow-xl shadow-emerald-950/20 text-white relative overflow-hidden group reveal">
+                    <div class="absolute -right-10 -bottom-10 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/20 transition-all"></div>
                     <div class="relative z-10 grid md:grid-cols-3 gap-8 items-center">
                         <div class="md:col-span-2">
-                            <span class="px-3 py-1 rounded-full bg-white text-brand-800 font-bold text-xs border border-brand-200 mb-6 inline-block">
-                                Inovasi Daur Ulang &amp; IoT
-                            </span>
-                            <h3 class="font-display font-bold text-2xl md:text-3xl text-slate-900 mb-4">
-                                Sampahmu Didaur Ulang Jadi SmartKolecer
+                            <div class="flex flex-wrap items-center gap-2 mb-6">
+                                <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs border border-emerald-500/30">
+                                    Inovasi Baru &bull; IoT Smart Bin
+                                </span>
+                                <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-white font-semibold text-xs border border-white/15">
+                                    Behavioral Nudge &bull; 1 Meter
+                                </span>
+                            </div>
+                            <h3 class="font-display font-bold text-2xl md:text-3xl text-white mb-4">
+                                TrashSmart: Tempat Sampah Pintar Berjiwa Edukator
                             </h3>
-                            <p class="text-slate-600 text-base leading-relaxed max-w-xl mb-6">
-                                Sampah yang disetor di Trashily tidak berhenti di pengepul. Sebagian kami olah menjadi baling-baling SmartKolecer, kolecer berbasis IoT yang bisa dipantau secara digital.
+                            <p class="text-emerald-100/90 text-base leading-relaxed max-w-xl mb-6">
+                                Hadir setinggi 1 meter dengan baki inspeksi pintar dan dual pintu (hijau organik &amp; kuning anorganik). Dilengkapi modul suara ramah yang menegur langsung saat sampah keliru kamar, serta sensor timbangan otomatis yang langsung menambah saldo poin ke akun Trashily.
                             </p>
-                            <a href="smartkolecer.php" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-md transition-all hover:-translate-y-0.5">
-                                Pelajari SmartKolecer <i class="fa-solid fa-arrow-right text-xs"></i>
-                            </a>
+                            <div class="flex flex-wrap items-center gap-3">
+                                <a href="trashsmart.php" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm shadow-md transition-all hover:-translate-y-0.5">
+                                    Pelajari TrashSmart <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </a>
+                                <a href="trashsmart.php#simulasi-suara" class="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white font-bold text-sm transition-all">
+                                    <i class="fa-solid fa-volume-high text-emerald-400"></i> Tes Suara Nudge
+                                </a>
+                            </div>
                         </div>
                         <div class="flex items-center justify-center">
-                            <!-- TODO: ganti ikon dengan foto: <img src="assets/smartkolecer.png" alt="SmartKolecer" class="rounded-2xl w-full"> -->
-                            <div class="w-40 h-40 rounded-3xl bg-white border border-brand-100 shadow-sm flex items-center justify-center">
-                                <i class="fa-solid fa-fan text-brand-600 text-6xl group-hover:rotate-180 transition-transform duration-700"></i>
+                            <div class="w-48 h-48 rounded-3xl overflow-hidden border border-emerald-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-500 bg-slate-950/60">
+                                <img src="assets/trashsmart.jpg" alt="TrashSmart" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: SmartKolecer -->
+                <div class="bg-gradient-to-br from-slate-950 via-brand-950 to-teal-950 border border-brand-500/20 rounded-3xl p-8 md:p-10 shadow-xl shadow-brand-950/20 text-white relative overflow-hidden group reveal">
+                    <div class="absolute -right-10 -bottom-10 w-80 h-80 bg-brand-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-brand-500/20 transition-all"></div>
+                    <div class="relative z-10 grid md:grid-cols-3 gap-8 items-center">
+                        <div class="md:col-span-2">
+                            <div class="flex flex-wrap items-center gap-2 mb-6">
+                                <span class="px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 font-bold text-xs border border-brand-500/30">
+                                    Inovasi Daur Ulang &bull; Smart Windmill
+                                </span>
+                                <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-white font-semibold text-xs border border-white/15">
+                                    IoT Telemetry &bull; Upcycled Plastic
+                                </span>
+                            </div>
+                            <h3 class="font-display font-bold text-2xl md:text-3xl text-white mb-4">
+                                Sampahmu Didaur Ulang Jadi SmartKolecer
+                            </h3>
+                            <p class="text-brand-100/90 text-base leading-relaxed max-w-xl mb-6">
+                                Sampah botol &amp; plastik yang Anda setor di Trashily tidak berhenti di tempat pembuangan. Sebagian kami daur ulang menjadi bilah aerodinamis SmartKolecer—kolecer modern bertenaga angin dengan sensor telemetri digital dan koneksi IoT real-time.
+                            </p>
+                            <div class="flex flex-wrap items-center gap-3">
+                                <a href="smartkolecer.php" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-500 hover:bg-brand-400 text-slate-950 font-extrabold text-sm shadow-md transition-all hover:-translate-y-0.5">
+                                    Pelajari SmartKolecer <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </a>
+                                <a href="smartkolecer.php#cara-kerja-kolecer" class="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white font-bold text-sm transition-all">
+                                    <i class="fa-solid fa-wind text-brand-300"></i> Cara Kerja &amp; Telemetri
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center">
+                            <div class="w-48 h-48 rounded-3xl overflow-hidden border border-brand-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-500 bg-slate-950/60">
+                                <img src="assets/smartkolecer.jpg" alt="SmartKolecer - Inovasi Daur Ulang IoT" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
        <!-- ==================== MITRA & KOLABORATOR ==================== -->
     <section id="kolaborator" class="py-24 px-4 md:px-8 bg-brand-50 border-t border-slate-200/80">
@@ -1001,13 +1158,13 @@ if ($ulasan_table_exists) {
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- TrashSmart -->
-                <a href="https://URL-TRASHSMART" target="_blank" rel="noopener" class="bg-white border border-slate-200 hover:border-brand-500/50 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group reveal">
+                <a href="trashsmart.php" class="bg-white border border-slate-200 hover:border-brand-500/50 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group reveal">
                     <div>
                         <div class="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 text-xl mb-5"><i class="fa-solid fa-trash-can"></i></div>
                         <h3 class="font-display font-bold text-xl text-slate-900 mb-2 group-hover:text-brand-700 transition-colors">TrashSmart</h3>
                         <p class="text-slate-600 text-sm leading-relaxed">Deskripsi singkat TrashSmart.</p>
                     </div>
-                    <span class="mt-6 pt-4 border-t border-slate-100 text-sm font-bold text-brand-700 inline-flex items-center gap-2">Kunjungi Website <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i></span>
+                    <span class="mt-6 pt-4 border-t border-slate-100 text-sm font-bold text-brand-700 inline-flex items-center gap-2">Pelajari TrashSmart <i class="fa-solid fa-arrow-right text-xs"></i></span>
                 </a>
 
                 <!-- Gembul -->
@@ -1406,8 +1563,9 @@ if ($ulasan_table_exists) {
             <div class="bg-gradient-to-br from-brand-700 via-brand-600 to-brand-800 px-8 pt-10 pb-8 text-center relative overflow-hidden">
                 <div class="absolute -top-10 -left-10 w-40 h-40 bg-brand-300/20 rounded-full blur-2xl pointer-events-none"></div>
                 <span id="infoBadge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 border border-white/25 text-white font-bold text-[11px] uppercase tracking-widest"></span>
-                <div class="mx-auto mt-5 w-24 h-24 rounded-3xl bg-white/15 border border-white/25 flex items-center justify-center">
+                <div class="mx-auto mt-5 w-24 h-24 rounded-3xl bg-white/15 border border-white/25 flex items-center justify-center overflow-hidden">
                     <i id="infoIcon" class="fa-solid text-white text-5xl"></i>
+                    <img id="infoImg" src="" alt="" class="hidden w-full h-full object-cover">
                 </div>
             </div>
 
@@ -1445,11 +1603,12 @@ if ($ulasan_table_exists) {
             const burgerBtn = document.querySelector('#burgerBtn');
             const isScrolled = window.scrollY > 30;
 
-            nav.classList.toggle('bg-white/95', isScrolled);
-            nav.classList.toggle('backdrop-blur-xl', isScrolled);
+            // When scrolled: SOLID PUTIH TANPA BLUR!
+            // When at top: tetap blur dan rounded border dipertahankan!
+            nav.classList.toggle('bg-white', isScrolled);
             nav.classList.toggle('border-b', isScrolled);
-            nav.classList.toggle('border-slate-200/80', isScrolled);
-            nav.classList.toggle('shadow-md', isScrolled);
+            nav.classList.toggle('border-slate-200', isScrolled);
+            nav.classList.toggle('shadow-sm', isScrolled);
             nav.classList.toggle('py-3', isScrolled);
             nav.classList.toggle('py-4', !isScrolled);
 
@@ -1463,12 +1622,19 @@ if ($ulasan_table_exists) {
                 item.classList.toggle('text-slate-700', isScrolled);
             });
 
+            // Di paling atas tetap blur dan rounded border pertahanin; pas di-scroll tanpa border di daftar menunya
             if (navLinkWrapper) {
                 navLinkWrapper.classList.toggle('bg-white/10', !isScrolled);
                 navLinkWrapper.classList.toggle('border-white/20', !isScrolled);
                 navLinkWrapper.classList.toggle('backdrop-blur-sm', !isScrolled);
+                navLinkWrapper.classList.toggle('rounded-full', !isScrolled);
+                navLinkWrapper.classList.toggle('border', !isScrolled);
+                navLinkWrapper.classList.toggle('px-5', !isScrolled);
+                navLinkWrapper.classList.toggle('py-2', !isScrolled);
                 navLinkWrapper.classList.toggle('bg-transparent', isScrolled);
                 navLinkWrapper.classList.toggle('border-transparent', isScrolled);
+                navLinkWrapper.classList.toggle('px-0', isScrolled);
+                navLinkWrapper.classList.toggle('py-0', isScrolled);
             }
 
             if (mobileMenu) {
@@ -1517,10 +1683,70 @@ if ($ulasan_table_exists) {
                 burgerBtn.classList.toggle('text-white', !isScrolled);
                 burgerBtn.classList.toggle('text-slate-900', isScrolled);
             }
+
+            const megaMenuDropdown = document.getElementById('megaMenuDropdown');
+            if (megaMenuDropdown) {
+                // Di paling atas: full width dan dibuat agak kebawah dikit (mt-3 & border-t)
+                // Pas di scroll: nempel flush di bawah navbar (mt-0 & border-t-0)
+                megaMenuDropdown.classList.toggle('mt-0', !isScrolled);
+                megaMenuDropdown.classList.toggle('border-t', !isScrolled);
+                megaMenuDropdown.classList.toggle('mt-0', isScrolled);
+                megaMenuDropdown.classList.toggle('border-t-0', isScrolled);
+            }
         }
 
         applyNavbarState();
         window.addEventListener('scroll', applyNavbarState);
+
+        /* Desktop Mega Menu Dropdown Interaction */
+        (function initMegaMenu() {
+            const trigger = document.getElementById('layananNavTrigger');
+            const dropdown = document.getElementById('megaMenuDropdown');
+            const chevron = document.getElementById('layananChevron');
+            let timer;
+
+            if (!trigger || !dropdown) return;
+
+            const openMenu = () => {
+                clearTimeout(timer);
+                dropdown.classList.remove('opacity-0', 'invisible', 'pointer-events-none');
+                dropdown.classList.add('opacity-100', 'visible', 'pointer-events-auto');
+                if (chevron) chevron.classList.add('rotate-180');
+            };
+
+            const closeMenu = () => {
+                timer = setTimeout(() => {
+                    dropdown.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+                    dropdown.classList.remove('opacity-100', 'visible', 'pointer-events-auto');
+                    if (chevron) chevron.classList.remove('rotate-180');
+                }, 150);
+            };
+
+            trigger.addEventListener('mouseenter', openMenu);
+            trigger.addEventListener('mouseleave', closeMenu);
+            dropdown.addEventListener('mouseenter', openMenu);
+            dropdown.addEventListener('mouseleave', closeMenu);
+
+            const triggerBtn = trigger.querySelector('button');
+            if (triggerBtn) {
+                triggerBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (dropdown.classList.contains('opacity-100')) {
+                        closeMenu();
+                    } else {
+                        openMenu();
+                    }
+                });
+            }
+
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+                    dropdown.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+                    dropdown.classList.remove('opacity-100', 'visible', 'pointer-events-auto');
+                    if (chevron) chevron.classList.remove('rotate-180');
+                }
+            });
+        })();
 
         /* Mobile Menu Toggle */
         function toggleMobileMenu() {
@@ -1606,7 +1832,7 @@ if ($ulasan_table_exists) {
 
             // TODO: pastikan isi tiap slide sudah disetujui masing-masing kolaborator
             const slides = [
-                { badge: 'Inovasi Baru', icon: 'fa-fan', spin: true,
+                { badge: 'Inovasi Baru', icon: 'fa-fan', img: 'assets/smartkolecer.jpg',
                   title: 'Kenalan dengan SmartKolecer',
                   text: 'Kolecer berbasis IoT dengan baling-baling dari sampah daur ulang. Sampah yang kamu setor di Trashily bisa jadi bagian dari inovasi ini.',
                   cta: 'Pelajari SmartKolecer', href: 'smartkolecer.php', ext: false },
@@ -1617,11 +1843,11 @@ if ($ulasan_table_exists) {
                 { badge: 'Baju Bekas', icon: 'fa-shirt',
                   title: 'Donasikan Baju Bekasmu ke Everware',
                   text: 'Punya pakaian layak pakai yang sudah tidak terpakai? Donasikan lewat Everware, hubungi langsung via WhatsApp.',
-                  cta: 'Hubungi via WhatsApp', href: 'https://wa.me/62XXXXXXXXXX?text=Halo%20Everware%2C%20saya%20dari%20Trashily%20ingin%20donasi%20baju%20bekas', ext: true },
-                { badge: 'Di Rumahmu', icon: 'fa-trash-can',
+                  cta: 'Hubungi via WhatsApp', href: 'https://wa.me/6283811623746?text=Halo%20Everware%2C%20saya%20dari%20Trashily%20ingin%20donasi%20baju%20bekas', ext: true },
+                { badge: 'Di Rumahmu', icon: 'fa-trash-can', img: 'assets/trashsmart.jpg',
                   title: 'Mau Tempat Sampah Pintar?',
-                  text: 'Ingin punya tempat sampah pintar yang bisa memilah sampah langsung di rumah? Hubungi TrashSmart.',
-                  cta: 'Hubungi TrashSmart', href: 'https://URL-TRASHSMART', ext: true },
+                  text: 'Ingin punya tempat sampah pintar yang bisa memilah sampah langsung di rumah? Kenali TrashSmart.',
+                  cta: 'Pelajari TrashSmart', href: 'trashsmart.php', ext: false },
             ];
 
             const el = id => document.getElementById(id);
@@ -1641,8 +1867,9 @@ if ($ulasan_table_exists) {
                 idx = (i + slides.length) % slides.length;
                 const s = slides[idx];
                 el('infoBadge').innerHTML = '<i class="fa-solid fa-bolt"></i> ' + s.badge;
-                el('infoIcon').className = 'fa-solid ' + s.icon + ' text-white text-5xl';
-                el('infoIcon').style.animation = s.spin ? 'spin 4s linear infinite' : 'none';
+                const img = el('infoImg'), ico = el('infoIcon');
+                if (s.img) { img.src = s.img; img.alt = s.title; img.classList.remove('hidden'); ico.classList.add('hidden'); }
+                else { img.classList.add('hidden'); ico.classList.remove('hidden'); ico.className = 'fa-solid ' + s.icon + ' text-white text-5xl'; }
                 el('infoTitle').textContent = s.title;
                 el('infoText').textContent = s.text;
                 el('infoCtaText').textContent = s.cta;
