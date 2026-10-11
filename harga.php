@@ -5,11 +5,44 @@ require_once __DIR__ . '/config/database.php';
 $logged_in = isset($_SESSION['user_id']);
 $dash_url = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' : 'customer/dashboard.php') : null;
 
-$kategori_order = ['organik_kering' => 'Organik Kering', 'plastik' => 'Plastik', 'kertas' => 'Kertas', 'logam' => 'Logam', 'kaca' => 'Kaca', 'elektronik' => 'Elektronik', 'lainnya' => 'Lainnya'];
-$sampah = $conn->query("SELECT * FROM jenis_sampah WHERE is_active = 1 ORDER BY kategori, nama");
+// ===== Ubah dua baris ini setiap kali harga diperbarui =====
+$periode = 'Oktober 2026';
+$wilayah = 'Bogor';
+
+// Urutan, nama tampilan, ikon, dan warna tiap kategori
+$kategori_meta = [
+    'kertas'         => ['Kertasan',           'fa-newspaper',   'sky'],
+    'logam'          => ['Logam',              'fa-industry',    'yellow'],
+    'plastik'        => ['Plastik',            'fa-bottle-water','brand'],
+    'kaca'           => ['Botol Kaca',         'fa-wine-bottle', 'emerald'],
+    'elektronik'     => ['Rongsok Elektronik', 'fa-plug',        'purple'],
+    'organik_kering' => ['Organik Kering',     'fa-leaf',        'lime'],
+    'lainnya'        => ['Lain-lain',          'fa-box',         'orange'],
+];
+
 $grouped = [];
-while ($row = $sampah->fetch_assoc()) {
+$res = $conn->query("SELECT * FROM jenis_sampah WHERE is_active = 1 ORDER BY id");
+while ($row = $res->fetch_assoc()) {
     $grouped[$row['kategori']][] = $row;
+}
+
+// Format tiap barang: [nama, harga, satuan, poin, keterangan]
+$daftar_harga = [];
+$total_barang = 0;
+foreach ($kategori_meta as $key => [$label, $icon, $warna]) {
+    if (empty($grouped[$key])) continue;
+    $items = [];
+    foreach ($grouped[$key] as $r) {
+        $items[] = [
+            $r['nama'],
+            number_format((float)$r['harga_per_kg'], 0, ',', '.'),
+            $r['satuan'] ?? 'Kg',
+            number_format((float)$r['poin_per_kg'], 0, ',', '.'),
+            $r['deskripsi'] ?? '',
+        ];
+    }
+    $daftar_harga[$label] = ['icon' => $icon, 'warna' => $warna, 'items' => $items];
+    $total_barang += count($items);
 }
 ?>
 <!DOCTYPE html>
@@ -18,7 +51,7 @@ while ($row = $sampah->fetch_assoc()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Harga & Barang — Trashily</title>
-    <meta name="description" content="Daftar harga sampah dan barang yang bisa ditukarkan di Trashily." />
+    <meta name="description" content="Daftar harga sampah dan barang bekas di Trashily, wilayah Bogor." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -42,6 +75,7 @@ while ($row = $sampah->fetch_assoc()) {
     </script>
     <style>
         body { font-family: 'Be Vietnam Pro', sans-serif; background: #f8fafc; color: #0f172a; }
+        .soft-card { box-shadow: 0 8px 40px rgba(31,108,58,0.06); }
         .page-shell { background: linear-gradient(180deg, rgba(12,123,59,0.06) 0%, rgba(248,250,252,1) 18%, rgba(248,250,252,1) 100%); }
     </style>
 </head>
@@ -219,119 +253,73 @@ while ($row = $sampah->fetch_assoc()) {
         </div>
     </header>
 
-    <script>
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
-        });
-
-        /* Navbar Dynamic Scroll: blur & rounded pill at top, solid white borderless on scroll */
-        function applySubpageNavbarState() {
-            const nav = document.getElementById('navbar');
-            const navLinkWrapper = document.getElementById('navLinkWrapper');
-            const isScrolled = window.scrollY > 20;
-
-            if (nav) {
-                nav.classList.toggle('bg-white', isScrolled);
-                nav.classList.toggle('border-slate-200', isScrolled);
-                nav.classList.toggle('shadow-sm', isScrolled);
-
-                nav.classList.toggle('bg-white/80', !isScrolled);
-                nav.classList.toggle('border-slate-200/80', !isScrolled);
-                nav.classList.toggle('backdrop-blur-xl', !isScrolled);
-            }
-
-            if (navLinkWrapper) {
-                // Di paling atas: tetap blur dan rounded border pertahanin
-                navLinkWrapper.classList.toggle('rounded-full', !isScrolled);
-                navLinkWrapper.classList.toggle('border', !isScrolled);
-                navLinkWrapper.classList.toggle('border-slate-200/80', !isScrolled);
-                navLinkWrapper.classList.toggle('bg-white/70', !isScrolled);
-                navLinkWrapper.classList.toggle('backdrop-blur-md', !isScrolled);
-                navLinkWrapper.classList.toggle('px-5', !isScrolled);
-                navLinkWrapper.classList.toggle('py-2', !isScrolled);
-                navLinkWrapper.classList.toggle('shadow-sm', !isScrolled);
-
-                // Pas di scroll: tanpa border di daftar menunya
-                navLinkWrapper.classList.toggle('border-transparent', isScrolled);
-                navLinkWrapper.classList.toggle('bg-transparent', isScrolled);
-                navLinkWrapper.classList.toggle('shadow-none', isScrolled);
-                navLinkWrapper.classList.toggle('px-0', isScrolled);
-                navLinkWrapper.classList.toggle('py-0', isScrolled);
-            }
-        }
-        applySubpageNavbarState();
-        window.addEventListener('scroll', applySubpageNavbarState);
-    </script>
 
     <main class="max-w-7xl mx-auto px-4 py-16 md:py-20">
-        <section class="mb-12 text-center">
-            <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.2em] text-brand-800">Daftar Harga & Barang</span>
+        <!-- Header -->
+        <section class="mb-10 text-center">
+            <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.2em] text-brand-800">
+                <i class="fa-solid fa-calendar-days"></i> Harga <?= htmlspecialchars($periode) ?> &middot; Wilayah <?= htmlspecialchars($wilayah) ?>
+            </span>
             <h1 class="mt-6 font-display text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">Harga sampah terpilah dan barang yang diterima Trashily</h1>
-            <p class="mt-4 mx-auto max-w-2xl text-base md:text-lg text-slate-600">Kami menghargai sampah yang masih layak daur ulang dengan tarif yang transparan, serta menukarkan poinmu dengan barang kebutuhan sehari-hari.</p>
+            <p class="mt-4 mx-auto max-w-2xl text-base md:text-lg text-slate-600">Kami menghargai sampah yang masih layak daur ulang dengan tarif yang transparan. Ada <?= $total_barang ?> jenis barang dalam <?= count($daftar_harga) ?> kategori.</p>
         </section>
 
-        <section class="rounded-3xl border border-slate-200 bg-white overflow-hidden shadow-card">
-            <div class="overflow-x-auto">
+        <!-- Pencarian & lompat kategori -->
+        <section class="mb-10 max-w-3xl mx-auto">
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input id="cariBarang" type="search" placeholder="Cari barang, misalnya: kardus, tembaga, PET..." class="w-full rounded-full border border-slate-200 bg-white pl-12 pr-5 py-3.5 text-slate-800 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none soft-card">
+            </div>
+            <div class="mt-4 flex flex-wrap justify-center gap-2">
+                <?php foreach ($daftar_harga as $nama_kat => $kat): ?>
+                    <a href="#kat-<?= md5($nama_kat) ?>" class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-1.5 text-xs font-bold text-brand-800 hover:bg-brand-100 transition">
+                        <i class="fa-solid <?= $kat['icon'] ?>"></i> <?= htmlspecialchars($nama_kat) ?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
+        <!-- Daftar per kategori -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+            <?php foreach ($daftar_harga as $nama_kat => $kat): ?>
+            <div id="kat-<?= md5($nama_kat) ?>" class="kategori-card rounded-3xl border border-slate-200 bg-white overflow-hidden soft-card scroll-mt-28">
+                <div class="flex items-center justify-between gap-3 px-5 py-4 md:px-6 border-b border-slate-200 bg-slate-50">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-<?= $kat['warna'] ?>-100 text-<?= $kat['warna'] ?>-700 flex items-center justify-center">
+                            <i class="fa-solid <?= $kat['icon'] ?>"></i>
+                        </div>
+                        <h2 class="font-display font-bold text-lg text-slate-900"><?= htmlspecialchars($nama_kat) ?></h2>
+                    </div>
+                    <span class="text-xs font-bold text-slate-500"><?= count($kat['items']) ?> barang</span>
+                </div>
                 <table class="w-full">
-                    <thead>
-                        <tr class="border-b border-slate-200 bg-slate-50">
-                            <th class="px-4 py-3 md:px-6 md:py-4 text-left font-display font-bold text-sm md:text-base text-slate-900">Nama Sampah</th>
-                            <th class="px-4 py-3 md:px-6 md:py-4 text-left font-display font-bold text-sm md:text-base text-slate-900">Kategori</th>
-                            <th class="px-4 py-3 md:px-6 md:py-4 text-right font-display font-bold text-sm md:text-base text-slate-900">Poin / kg</th>
-                            <th class="px-4 py-3 md:px-6 md:py-4 text-right font-display font-bold text-sm md:text-base text-slate-900">Harga / kg</th>
-                            <th class="px-4 py-3 md:px-6 md:py-4 text-left font-display font-bold text-sm md:text-base text-slate-900 hidden md:table-cell">Deskripsi</th>
-                        </tr>
-                    </thead>
                     <tbody>
-                        <?php 
-                        $kategori_icons = [
-                            'organik_kering' => '🍂',
-                            'plastik' => '🧴',
-                            'kertas' => '📄',
-                            'logam' => '🔧',
-                            'kaca' => '🍶',
-                            'elektronik' => '📱',
-                            'lainnya' => '📦'
-                        ];
-                        foreach ($kategori_order as $key => $label):
-                            if (!empty($grouped[$key])):
-                                foreach ($grouped[$key] as $item):
-                        ?>
-                        <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
-                            <td class="px-4 py-3 md:px-6 md:py-4">
-                                <div class="font-semibold text-slate-900"><?= htmlspecialchars($item['nama']) ?></div>
+                        <?php foreach ($kat['items'] as [$nama, $harga, $satuan, $poin, $ket]): ?>
+                        <tr class="barang-row border-b border-slate-100 last:border-0 hover:bg-slate-50 transition">
+                            <td class="px-5 py-3 md:px-6">
+                                <div class="font-semibold text-slate-900 text-sm md:text-base"><?= htmlspecialchars($nama) ?></div>
+                                <?php if ($ket !== ''): ?><div class="text-xs text-slate-500"><?= htmlspecialchars($ket) ?></div><?php endif; ?>
                             </td>
-                            <td class="px-4 py-3 md:px-6 md:py-4">
-                                <span class="inline-flex items-center gap-1 text-sm text-slate-700">
-                                    <?= $kategori_icons[$key] ?? '📦' ?>
-                                    <span><?= $label ?></span>
-                                </span>
-                            </td>
-                            <td class="px-4 py-3 md:px-6 md:py-4 text-right">
-                                <strong class="text-brand-700"><?= number_format((float)$item['poin_per_kg'], 0, ',', '.') ?></strong>
-                            </td>
-                            <td class="px-4 py-3 md:px-6 md:py-4 text-right">
-                                <strong class="text-slate-900">Rp <?= number_format((float)$item['harga_per_kg'], 0, ',', '.') ?></strong>
-                            </td>
-                            <td class="px-4 py-3 md:px-6 md:py-4 text-sm text-slate-600 hidden md:table-cell">
-                                <?= htmlspecialchars($item['deskripsi'] ?: 'Sampah yang siap dijemput dan dipilah sesuai kategori.') ?>
+                            <td class="px-5 py-3 md:px-6 text-right whitespace-nowrap">
+                                <strong class="text-brand-700 text-sm md:text-base">Rp <?= htmlspecialchars($harga) ?></strong>
+                                <span class="text-xs text-slate-500">/ <?= htmlspecialchars($satuan) ?></span>
+                                <div class="text-xs font-semibold text-amber-600"><i class="fa-solid fa-coins"></i> <?= htmlspecialchars($poin) ?> poin</div>
                             </td>
                         </tr>
-                        <?php 
-                                endforeach;
-                            endif;
-                        endforeach;
-                        ?>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
-            <div class="px-4 py-4 md:px-6 md:py-5 bg-slate-50 border-t border-slate-200 text-xs md:text-sm text-slate-600 text-center">
-                Klik dan geser tabel untuk melihat seluruh informasi pada perangkat mobile
-            </div>
+            <?php endforeach; ?>
         </section>
 
-        <section class="mt-14 rounded-3xl bg-gradient-to-r from-brand-700 to-brand-600 p-8 md:p-10 text-white shadow-premium">
+        <p id="tidakAda" class="hidden mt-8 text-center text-slate-500">Barang tidak ditemukan. Coba kata kunci lain.</p>
+
+        <p class="mt-10 text-center text-xs md:text-sm text-slate-500">
+            Harga berlaku untuk wilayah <?= htmlspecialchars($wilayah) ?> periode <?= htmlspecialchars($periode) ?> dan dapat berubah sewaktu-waktu sesuai kondisi pasar.
+        </p>
+
+        <section class="mt-14 rounded-3xl bg-gradient-to-r from-brand-700 to-brand-600 p-8 md:p-10 text-white">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                 <div>
                     <p class="text-sm font-bold uppercase tracking-[0.18em] text-brand-100">Mulai sekarang</p>
@@ -455,6 +443,25 @@ while ($row = $sampah->fetch_assoc()) {
                 }
             });
         })();
+    </script>
+    <script>
+        // Pencarian: sembunyikan baris yang tidak cocok, dan kategori yang kosong
+        const cari = document.getElementById('cariBarang');
+        cari.addEventListener('input', function () {
+            const q = this.value.trim().toLowerCase();
+            let totalTampil = 0;
+            document.querySelectorAll('.kategori-card').forEach(card => {
+                let tampil = 0;
+                card.querySelectorAll('.barang-row').forEach(row => {
+                    const cocok = row.textContent.toLowerCase().includes(q);
+                    row.classList.toggle('hidden', !cocok);
+                    if (cocok) tampil++;
+                });
+                card.classList.toggle('hidden', tampil === 0);
+                totalTampil += tampil;
+            });
+            document.getElementById('tidakAda').classList.toggle('hidden', totalTampil > 0);
+        });
     </script>
 </body>
 </html>
