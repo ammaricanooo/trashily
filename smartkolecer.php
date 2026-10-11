@@ -347,6 +347,76 @@ $dash_url = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' 
             <p class="mt-4 mx-auto max-w-3xl text-slate-600 text-base md:text-lg">Kolecer adalah baling-baling bambu tradisional yang berputar mengikuti angin. SmartKolecer menambahkan sensor dan koneksi IoT agar putarannya bisa dipantau, sementara baling-balingnya dibuat dari sampah yang dipilah dan didaur ulang.</p>
         </section>
 
+        <!-- KENAPA SMARTKOLECER (SEJARAH) -->
+        <section id="sejarah" class="mb-20">
+            <div class="text-center mb-10">
+                <p class="text-sm font-bold uppercase tracking-[0.18em] text-brand-700">Latar Belakang</p>
+                <h2 class="mt-2 font-display text-3xl md:text-4xl font-extrabold text-slate-900">Kenapa SmartKolecer dibuat?</h2>
+                <!-- TODO: ceritakan masalah yang mendorong proyek ini -->
+                <p class="mt-4 mx-auto max-w-3xl text-slate-600 text-base md:text-lg">Dari banyaknya sampah anorganik yang menumpuk, kami melihat peluang: kalau sampah bisa jadi bahan baku teknologi sederhana, nilainya tidak berhenti sebagai limbah.</p>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <?php
+                // TODO: ganti dengan perjalanan proyek yang sebenarnya
+                $sejarah = [
+                    ['Awal 2026',  'Ide muncul',      'Tim melihat masalah sampah plastik dan ingin membuatnya bermanfaat.'],
+                    ['Pertengahan 2026', 'Prototipe pertama', 'Baling-baling pertama dibuat dari sampah dan diuji di lapangan.'],
+                    ['Akhir 2026', 'Terhubung IoT',   'Sensor ditambahkan agar putaran bisa dipantau, lalu diintegrasikan dengan Trashily.'],
+                ];
+                foreach ($sejarah as $i => [$waktu, $judul, $isi]): ?>
+                <div class="relative pl-10 pb-8 last:pb-0">
+                    <?php if ($i < count($sejarah) - 1): ?>
+                    <span class="absolute left-[15px] top-8 bottom-0 w-0.5 bg-brand-200"></span>
+                    <?php endif; ?>
+                    <span class="absolute left-0 top-1 w-8 h-8 rounded-full bg-brand-600 text-white text-xs font-bold flex items-center justify-center"><?= $i + 1 ?></span>
+                    <p class="text-xs font-extrabold uppercase tracking-widest text-brand-700"><?= htmlspecialchars($waktu) ?></p>
+                    <h3 class="mt-1 font-display text-xl font-bold text-slate-900"><?= htmlspecialchars($judul) ?></h3>
+                    <p class="mt-1 text-sm md:text-base text-slate-600"><?= htmlspecialchars($isi) ?></p>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
+        <!-- PERBEDAAN DENGAN KOLECER BIASA -->
+        <section id="perbedaan" class="mb-20">
+            <div class="text-center mb-10">
+                <p class="text-sm font-bold uppercase tracking-[0.18em] text-brand-700">Bedanya Apa?</p>
+                <h2 class="mt-2 font-display text-3xl md:text-4xl font-extrabold text-slate-900">SmartKolecer vs Kolecer Biasa</h2>
+            </div>
+
+            <div class="rounded-3xl border border-slate-200 bg-white overflow-hidden soft-card">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-slate-200 bg-slate-50">
+                                <th class="px-4 py-3 md:px-6 md:py-4 text-left font-display font-bold text-sm md:text-base text-slate-900">Aspek</th>
+                                <th class="px-4 py-3 md:px-6 md:py-4 text-left font-display font-bold text-sm md:text-base text-slate-500">Kolecer Biasa</th>
+                                <th class="px-4 py-3 md:px-6 md:py-4 text-left font-display font-bold text-sm md:text-base text-brand-700">SmartKolecer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            // TODO: sesuaikan dengan spesifikasi produk yang sebenarnya
+                            $beda = [
+                                ['Bahan baling-baling', 'Bambu atau kayu baru',      'Sampah plastik/kertas daur ulang'],
+                                ['Pemantauan',          'Dilihat langsung di tempat', 'Terpantau lewat sensor IoT'],
+                                ['Data',                'Tidak ada',                  'Putaran tercatat dan tersimpan'],
+                                ['Dampak lingkungan',   'Menebang bahan alam',        'Mengurangi sampah di lingkungan'],
+                            ];
+                            foreach ($beda as [$aspek, $biasa, $smart]): ?>
+                            <tr class="border-b border-slate-100">
+                                <td class="px-4 py-3 md:px-6 md:py-4 font-semibold text-slate-900"><?= htmlspecialchars($aspek) ?></td>
+                                <td class="px-4 py-3 md:px-6 md:py-4 text-sm text-slate-500"><i class="fa-solid fa-xmark text-slate-300 mr-2"></i><?= htmlspecialchars($biasa) ?></td>
+                                <td class="px-4 py-3 md:px-6 md:py-4 text-sm font-semibold text-brand-800 bg-brand-50/50"><i class="fa-solid fa-check text-brand-600 mr-2"></i><?= htmlspecialchars($smart) ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
         <!-- CARA KERJA -->
         <section id="cara-kerja-kolecer" class="mb-20">
             <div class="text-center mb-10">
@@ -397,11 +467,43 @@ $dash_url = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' 
         </section>
 
         <!-- TIM -->
-        <section class="mb-20 text-center">
-            <p class="text-sm font-bold uppercase tracking-[0.18em] text-brand-700">Di Balik Layar</p>
-            <h2 class="mt-2 font-display text-3xl md:text-4xl font-extrabold text-slate-900">Tim Kami</h2>
-            <!-- TODO: isi nama tim dan anggota -->
-            <p class="mt-4 mx-auto max-w-2xl text-slate-600">SmartKolecer dikembangkan oleh [nama tim] sebagai bagian dari ekosistem Trashily.</p>
+        <section id="tim" class="mb-20">
+            <div class="text-center mb-10">
+                <p class="text-sm font-bold uppercase tracking-[0.18em] text-brand-700">Di Balik Layar</p>
+                <h2 class="mt-2 font-display text-3xl md:text-4xl font-extrabold text-slate-900">Tim Kami</h2>
+                <p class="mt-4 mx-auto max-w-2xl text-slate-600">Orang-orang yang membuat SmartKolecer dan Trashily berjalan.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <?php
+                // TODO: isi nama, peran, dan nama file foto (simpan di assets/tim/)
+                $tim = [
+                    ['Nur Komalasari', 'Ketua Tim',      'anggota1.jpg'],
+                    ['Justine', 'Pengembang IoT', 'anggota2.jpg'],
+                    ['Aprilia', 'Desain Produk',  'anggota3.jpg'],
+                    ['M Phazri Septian', 'Pengembang Web', 'anggota4.jpg'],
+                     ['Hani', 'Pengembang Web', 'anggota4.jpg'],
+                ];
+                foreach ($tim as [$nama, $peran, $foto]):
+                    $path = 'assets/tim/' . $foto;
+                    $ada  = file_exists(__DIR__ . '/' . $path);
+                    $inisial = strtoupper(substr(preg_replace('/[^A-Za-z]/', '', $nama), 0, 2)) ?: 'T';
+                ?>
+                <div class="rounded-3xl border border-brand-100 bg-white overflow-hidden soft-card text-center group">
+                    <div class="aspect-square bg-brand-50 overflow-hidden">
+                        <?php if ($ada): ?>
+                            <img src="<?= htmlspecialchars($path) ?>" alt="<?= htmlspecialchars($nama) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <?php else: ?>
+                            <div class="w-full h-full flex items-center justify-center font-display font-extrabold text-5xl text-brand-300"><?= $inisial ?></div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-display font-bold text-slate-900"><?= htmlspecialchars($nama) ?></h3>
+                        <p class="mt-1 text-xs font-semibold text-brand-700"><?= htmlspecialchars($peran) ?></p>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
         </section>
 
         <!-- SINERGI TRASHSMART -->
