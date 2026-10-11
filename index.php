@@ -1021,7 +1021,7 @@ if ($ulasan_table_exists) {
                 </a>
 
                 <!-- Everware (via WhatsApp) -->
-                <a href="https://wa.me/62XXXXXXXXXX?text=Halo%20Everware%2C%20saya%20dari%20Trashily" target="_blank" rel="noopener" class="bg-white border border-slate-200 hover:border-brand-500/50 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group reveal" style="transition-delay:.2s">
+                <a href="https://wa.me/6283811623746?text=Halo%20Everware%2C%20saya%20dari%20Trashily" target="_blank" rel="noopener" class="bg-white border border-slate-200 hover:border-brand-500/50 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group reveal" style="transition-delay:.2s">
                     <div>
                         <div class="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 text-xl mb-5"><i class="fa-solid fa-recycle"></i></div>
                         <h3 class="font-display font-bold text-xl text-slate-900 mb-2 group-hover:text-brand-700 transition-colors">Everware</h3>
