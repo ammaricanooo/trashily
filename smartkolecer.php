@@ -17,6 +17,7 @@ $dash_url = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
+       <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -32,6 +33,19 @@ $dash_url = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' 
                 }
             }
         }
+    </script>
+    <script>
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('#model3dLoad')) return;
+            const box = document.getElementById('model3dBox');
+            if (!box) return;
+            const frame = document.createElement('iframe');
+            frame.src = 'assets/3d/smartkolecer-3d.html';
+            frame.title = 'Model 3D SmartKolecer';
+            frame.className = 'absolute inset-0 w-full h-full border-0';
+            frame.setAttribute('allowfullscreen', '');
+            box.replaceChildren(frame);
+        });
     </script>
     <style>
         body { font-family: 'Be Vietnam Pro', sans-serif; background: #f8fafc; color: #0f172a; }
@@ -440,7 +454,36 @@ $dash_url = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' 
                 <?php endforeach; ?>
             </div>
         </section>
+               <!-- MODEL 3D -->
+        <section id="model-3d" class="mb-20">
+            <div class="text-center mb-8">
+                <p class="text-sm font-bold uppercase tracking-[0.18em] text-brand-700">Interaktif</p>
+                <h2 class="mt-2 font-display text-3xl md:text-4xl font-extrabold text-slate-900">Jelajahi Model 3D SmartKolecer</h2>
+                <p class="mt-4 mx-auto max-w-2xl text-slate-600">Putar, perbesar, dan lihat langsung transmisi pulley, boks baterai, serta ukurannya pada jalan lingkungan.</p>
+            </div>
 
+           <div class="max-w-4xl mx-auto rounded-3xl border border-brand-100 bg-white overflow-hidden soft-card">
+                <div id="model3dBox" class="relative bg-[#e8ede7] h-[520px] md:h-[480px]">
+                    <!-- Tampilan awal: model baru dimuat setelah tombol ditekan (hemat kuota dan baterai) -->
+                    <div id="model3dCover" class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+                        <div class="w-20 h-20 rounded-3xl bg-white border border-brand-100 shadow-sm flex items-center justify-center">
+                            <i class="fa-solid fa-cube text-brand-600 text-4xl"></i>
+                        </div>
+                        <h3 class="mt-5 font-display text-xl font-bold text-slate-900">Model 3D SmartKolecer</h3>
+                        <p class="mt-2 text-sm text-slate-600 max-w-sm"> Dimuat hanya saat kamu menekan tombol di bawah.</p>
+                        <button type="button" id="model3dLoad" class="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-600 hover:bg-brand-700 text-white px-6 py-3 font-bold text-sm shadow-md transition hover:-translate-y-0.5">
+                            <i class="fa-solid fa-play"></i> Muat Model 3D
+                        </button>
+                    </div>
+                </div>
+                <div class="flex flex-wrap items-center justify-between gap-3 px-5 py-3 border-t border-slate-100 bg-slate-50 text-xs text-slate-500">
+                    <span>Model 3D asli &bull; dapat diputar dan dizoom</span>
+                    <a href="assets/3d/smartkolecer-3d.html" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 font-bold text-brand-700 hover:text-brand-800">
+                        <i class="fa-solid fa-up-right-and-down-left-from-center"></i> Buka layar penuh
+                    </a>
+                </div>
+            </div>
+        </section>
         <!-- FITUR -->
         <section id="fitur" class="mb-20 rounded-3xl bg-brand-50 p-8 md:p-12">
             <div class="text-center mb-10">
