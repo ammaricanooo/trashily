@@ -98,7 +98,7 @@ while ($row = $sampah->fetch_assoc()) {
 
                 <!-- 2 Kiri, 2 Kanan Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                    <!-- Kiri: 2 Inovasi IoT -->
+                    <!-- Kiri: Inovasi & Gerakan Edukasi -->
                     <div class="space-y-2">
                         <!-- TrashSmart -->
                         <a href="trashsmart.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
@@ -133,9 +133,26 @@ while ($row = $sampah->fetch_assoc()) {
                             </div>
                             <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
                         </a>
+
+                        <!-- GEMBUL -->
+                        <a href="gembul.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
+                            <div class="text-amber-500 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
+                                <i class="fa-solid fa-dice"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-amber-600 transition-colors">GEMBUL</h4>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-50 text-amber-700">Creative Eco-Kit</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    Gerakan pilah sampah: Ular Tangga edukasi sekolah, magnet kulkas &amp; tantangan rumah.
+                                </p>
+                            </div>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-amber-600 transition-all self-center"></i>
+                        </a>
                     </div>
 
-                    <!-- Kanan: 2 Layanan & Komunitas -->
+                    <!-- Kanan: Layanan, Komunitas & Jadwal -->
                     <div class="space-y-2">
                         <!-- Daftar Harga (Sedang Dilihat) -->
                         <a href="harga.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-brand-300 hover:bg-brand-50/50 transition-all duration-200">
@@ -169,6 +186,23 @@ while ($row = $sampah->fetch_assoc()) {
                                 </p>
                             </div>
                             <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
+                        </a>
+
+                        <!-- Jadwal Kegiatan Publik -->
+                        <a href="gembul.php#jadwal" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-amber-200 hover:bg-amber-50/40 transition-all duration-200">
+                            <div class="text-amber-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-amber-700 transition-colors">Jadwal Kegiatan</h4>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-100 text-amber-800">Publik</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    Lihat agenda roadshow sekolah, aksi bersih sungai, dan workshop daur ulang terbuka.
+                                </p>
+                            </div>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-amber-600 transition-all self-center"></i>
                         </a>
                     </div>
                 </div>
@@ -208,6 +242,10 @@ while ($row = $sampah->fetch_assoc()) {
                     <a href="smartkolecer.php" class="flex items-center justify-between px-4 py-2 text-slate-800 font-semibold hover:bg-slate-100">
                         <span class="flex items-center gap-2"><i class="fa-solid fa-fan text-sky-600 text-sm"></i> SmartKolecer</span>
                         <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-sky-100 text-sky-700">IoT</span>
+                    </a>
+                    <a href="gembul.php" class="flex items-center justify-between px-4 py-2 text-slate-800 font-bold hover:text-amber-600">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-dice text-amber-500 text-sm"></i> GEMBUL</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-amber-100 text-amber-700">Eco-Kit</span>
                     </a>
                     <a href="harga.php" class="block px-4 py-2 rounded-lg font-bold bg-brand-50 text-brand-700">Daftar Harga</a>
                     <a href="ulasan.php" class="block px-4 py-2 text-slate-800 font-semibold hover:bg-slate-100">Ulasan Pengguna</a>
@@ -349,6 +387,20 @@ while ($row = $sampah->fetch_assoc()) {
         </section>
     </main>
 
+    <!-- FOOTER -->
+    <footer class="mt-20 bg-slate-900 text-slate-400 py-12 px-4 md:px-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
+            <p>&copy; <?= date('Y') ?> <strong>Trashily</strong>. Hak Cipta Dilindungi.</p>
+            <div class="flex items-center gap-4">
+                <a href="trashsmart.php" class="text-slate-300 hover:text-white transition">TrashSmart</a>
+                <a href="smartkolecer.php" class="text-slate-300 hover:text-white transition">SmartKolecer</a>
+                <a href="gembul.php" class="text-amber-400 hover:text-amber-300 transition font-bold">GEMBUL</a>
+                <a href="harga.php" class="text-slate-300 hover:text-white transition">Daftar Harga</a>
+                <a href="ulasan.php" class="text-slate-300 hover:text-white transition">Ulasan</a>
+            </div>
+        </div>
+    </footer>
+
     <script>
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -456,5 +508,8 @@ while ($row = $sampah->fetch_assoc()) {
             });
         })();
     </script>
+
+    <!-- FLOATING CHATBOT AI -->
+    <?php include __DIR__ . '/includes/chatbot.php'; ?>
 </body>
 </html>

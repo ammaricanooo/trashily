@@ -7,37 +7,46 @@ $pesan_sukses = '';
 $pesan_error  = '';
 
 // Handle direct PHP Form Submit
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['simpan_lokasi'])) {
-    $lat    = trim($_POST['lat'] ?? '');
-    $lng    = trim($_POST['lng'] ?? '');
-    $alamat = trim($_POST['alamat'] ?? '');
-    $tarif  = floatval($_POST['tarif_per_km'] ?? 2000);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['simpan_lokasi'])) {
+        $lat    = trim($_POST['lat'] ?? '');
+        $lng    = trim($_POST['lng'] ?? '');
+        $alamat = trim($_POST['alamat'] ?? '');
+        $tarif  = floatval($_POST['tarif_per_km'] ?? 2000);
 
-    if (!empty($lat) && !empty($lng) && !empty($alamat)) {
-        $updates = [
-            'trashily_lat'    => $lat,
-            'trashily_lng'    => $lng,
-            'trashily_alamat' => $alamat,
-            'tarif_per_km'    => (string)$tarif
-        ];
-        foreach ($updates as $kunci => $nilai) {
-            $stmt = $conn->prepare("INSERT INTO pengaturan (kunci, nilai) VALUES (?, ?) ON DUPLICATE KEY UPDATE nilai = VALUES(nilai)");
-            $stmt->bind_param('ss', $kunci, $nilai);
-            $stmt->execute();
+        if (!empty($lat) && !empty($lng) && !empty($alamat)) {
+            $updates = [
+                'trashily_lat'    => $lat,
+                'trashily_lng'    => $lng,
+                'trashily_alamat' => $alamat,
+                'tarif_per_km'    => (string)$tarif
+            ];
+            foreach ($updates as $kunci => $nilai) {
+                $stmt = $conn->prepare("INSERT INTO pengaturan (kunci, nilai) VALUES (?, ?) ON DUPLICATE KEY UPDATE nilai = VALUES(nilai)");
+                $stmt->bind_param('ss', $kunci, $nilai);
+                $stmt->execute();
+            }
+            $pesan_sukses = "Lokasi dan tarif Trashily berhasil disimpan!";
+        } else {
+            $pesan_error = "Semua data lokasi dan alamat harus diisi.";
         }
-        $pesan_sukses = "Lokasi dan tarif Trashily berhasil disimpan!";
-    } else {
-        $pesan_error = "Semua data lokasi dan alamat harus diisi.";
+    } elseif (isset($_POST['simpan_gemini'])) {
+        $apiKey = trim($_POST['gemini_api_key'] ?? '');
+        $stmt = $conn->prepare("INSERT INTO pengaturan (kunci, nilai) VALUES ('gemini_api_key', ?) ON DUPLICATE KEY UPDATE nilai = VALUES(nilai)");
+        $stmt->bind_param('s', $apiKey);
+        $stmt->execute();
+        $pesan_sukses = "Google Gemini API Key untuk Chatbot berhasil diperbarui!";
     }
 }
 
-// Ambil data lokasi saat ini dari DB
+// Ambil data lokasi & chatbot saat ini dari DB
 $res = $conn->query("SELECT kunci, nilai FROM pengaturan");
 $setting = [
     'trashily_lat'    => '-6.200000',
     'trashily_lng'    => '106.816666',
     'trashily_alamat' => 'Trashily Central Waste Bank, Jl. Green Eco No. 12',
-    'tarif_per_km'    => '2000'
+    'tarif_per_km'    => '2000',
+    'gemini_api_key'  => ''
 ];
 if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -188,11 +197,58 @@ if ($res) {
                     <div id="mapAdmin"></div>
                 </div>
             </div>
+
+            <!-- Google Gemini Chatbot AI Settings -->
+            <div class="card" style="margin-top:1.5rem;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)">
+                    <div style="display:flex;align-items:center;gap:.75rem;">
+                        <div style="width:38px;height:38px;border-radius:10px;background:#fef3c7;color:#d97706;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div>
+                            <h3 style="margin:0;font-size:1rem;font-weight:700;color:var(--text-dark);">Pengaturan Chatbot AI (Google Gemini)</h3>
+                            <p style="margin:0;font-size:.78rem;color:var(--text-muted);">Integrasikan Google Gemini API Key agar asisten Trashy di sudut kanan bawah merespons dengan kecerdasan buatan</p>
+                        </div>
+                    </div>
+                    <span class="badge badge-warning" style="font-size:10px;">Google Gemini 1.5 Flash</span>
+                </div>
+
+                <form method="POST" action="">
+                    <input type="hidden" name="simpan_gemini" value="1">
+                    <div class="form-group" style="margin-bottom:1rem;">
+                        <label class="form-label">Google Gemini API Key</label>
+                        <input type="password" class="form-control" name="gemini_api_key" id="geminiApiKey" value="<?= htmlspecialchars($setting['gemini_api_key'] ?? '') ?>" placeholder="AIzaSy..." style="font-family:monospace;letter-spacing:1px;">
+                        <small class="text-muted" style="display:block;margin-top:.35rem;font-size:.75rem;">
+                            Dapatkan kunci API gratis di <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" style="color:var(--primary);font-weight:600;">Google AI Studio</a>. Jika dikosongkan, chatbot otomatis menggunakan engine respons cerdas bawaan.
+                        </small>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+                        <button type="button" class="btn btn-ghost btn-sm" onclick="toggleApiKeyVisibility()">
+                            <i class="fa-solid fa-eye" id="iconEye"></i> Tampilkan / Sembunyikan Key
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-floppy-disk"></i> Simpan API Key Gemini
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </main>
 </div>
 
 <script>
+function toggleApiKeyVisibility() {
+    const el = document.getElementById('geminiApiKey');
+    const ic = document.getElementById('iconEye');
+    if (!el || !ic) return;
+    if (el.type === 'password') {
+        el.type = 'text';
+        ic.className = 'fa-solid fa-eye-slash';
+    } else {
+        el.type = 'password';
+        ic.className = 'fa-solid fa-eye';
+    }
+}
 let map, marker;
 const initialLat = parseFloat("<?= $setting['trashily_lat'] ?>") || -6.200000;
 const initialLng = parseFloat("<?= $setting['trashily_lng'] ?>") || 106.816666;

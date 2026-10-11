@@ -79,6 +79,10 @@ if (isset($conn)) {
                 <span class="nav-badge-pill"><?= $nav_ts_warn_count ?></span>
                 <?php endif; ?>
             </a>
+            <a href="<?= BASE_URL ?>/admin/kelola-gembul.php" class="nav-item <?= ($current === 'kelola-gembul.php') ? 'active' : '' ?>">
+                <i class="fa-solid fa-gamepad"></i>
+                <span>Kegiatan GEMBUL</span>
+            </a>
         </div>
         <div class="nav-section">
             <div class="nav-section-label">Akun</div>

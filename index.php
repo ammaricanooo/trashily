@@ -415,7 +415,7 @@ if ($ulasan_table_exists) {
 
                 <!-- 2 Kiri, 2 Kanan Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                    <!-- Kiri: 2 Inovasi IoT -->
+                    <!-- Kiri: Inovasi & Gerakan Edukasi -->
                     <div class="space-y-2">
                         <!-- TrashSmart -->
                         <a href="trashsmart.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
@@ -450,9 +450,26 @@ if ($ulasan_table_exists) {
                             </div>
                             <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
                         </a>
+
+                        <!-- GEMBUL -->
+                        <a href="gembul.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
+                            <div class="text-amber-500 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
+                                <i class="fa-solid fa-dice"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-amber-600 transition-colors">GEMBUL</h4>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-50 text-amber-700">Creative Eco-Kit</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    Gerakan pilah sampah: Ular Tangga edukasi sekolah, magnet kulkas &amp; tantangan rumah.
+                                </p>
+                            </div>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-amber-600 transition-all self-center"></i>
+                        </a>
                     </div>
 
-                    <!-- Kanan: 2 Layanan & Komunitas -->
+                    <!-- Kanan: Layanan, Komunitas & Jadwal -->
                     <div class="space-y-2">
                         <!-- Daftar Harga -->
                         <a href="harga.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
@@ -486,6 +503,23 @@ if ($ulasan_table_exists) {
                                 </p>
                             </div>
                             <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
+                        </a>
+
+                        <!-- Jadwal Kegiatan Publik -->
+                        <a href="gembul.php#jadwal" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-amber-200 hover:bg-amber-50/40 transition-all duration-200">
+                            <div class="text-amber-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-amber-700 transition-colors">Jadwal Kegiatan</h4>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-100 text-amber-800">Publik</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    Lihat agenda roadshow sekolah, aksi bersih sungai, dan workshop daur ulang terbuka.
+                                </p>
+                            </div>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-amber-600 transition-all self-center"></i>
                         </a>
                     </div>
                 </div>
@@ -525,6 +559,10 @@ if ($ulasan_table_exists) {
                     <a href="smartkolecer.php" onclick="toggleMobileMenu()" class="flex items-center justify-between text-slate-800 font-bold hover:text-brand-600 text-base py-2">
                         <span class="flex items-center gap-2"><i class="fa-solid fa-fan text-sky-600 text-sm"></i> SmartKolecer</span>
                         <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-sky-100 text-sky-700">IoT</span>
+                    </a>
+                    <a href="gembul.php" onclick="toggleMobileMenu()" class="flex items-center justify-between text-slate-800 font-bold hover:text-amber-600 text-base py-2">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-dice text-amber-500 text-sm"></i> GEMBUL</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-amber-100 text-amber-700">Eco-Kit</span>
                     </a>
                     <a href="harga.php" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2">Daftar Harga</a>
                     <a href="ulasan.php" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2">Ulasan Pengguna</a>
@@ -1142,23 +1180,23 @@ if ($ulasan_table_exists) {
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- TrashSmart -->
-                <a href="https://URL-TRASHSMART" target="_blank" rel="noopener" class="bg-white border border-slate-200 hover:border-brand-500/50 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group reveal">
+                <a href="trashsmart.php" class="bg-white border border-slate-200 hover:border-brand-500/50 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group reveal">
                     <div>
-                        <div class="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 text-xl mb-5"><i class="fa-solid fa-trash-can"></i></div>
+                        <div class="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 text-xl mb-5"><i class="fa-solid fa-trash-can-arrow-up"></i></div>
                         <h3 class="font-display font-bold text-xl text-slate-900 mb-2 group-hover:text-brand-700 transition-colors">TrashSmart</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">Deskripsi singkat TrashSmart.</p>
+                        <p class="text-slate-600 text-sm leading-relaxed">Tempat sampah pintar berteknologi IoT dengan baki inspeksi, voice nudge edukatif, dan reward instan.</p>
                     </div>
-                    <span class="mt-6 pt-4 border-t border-slate-100 text-sm font-bold text-brand-700 inline-flex items-center gap-2">Kunjungi Website <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i></span>
+                    <span class="mt-6 pt-4 border-t border-slate-100 text-sm font-bold text-brand-700 inline-flex items-center gap-2">Pelajari TrashSmart <i class="fa-solid fa-arrow-right text-xs"></i></span>
                 </a>
 
                 <!-- Gembul -->
-                <a href="https://URL-GEMBUL" target="_blank" rel="noopener" class="bg-white border border-slate-200 hover:border-brand-500/50 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group reveal" style="transition-delay:.1s">
+                <a href="gembul.php" class="bg-white border border-slate-200 hover:border-amber-500/50 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group reveal" style="transition-delay:.1s">
                     <div>
-                        <div class="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 text-xl mb-5"><i class="fa-solid fa-leaf"></i></div>
-                        <h3 class="font-display font-bold text-xl text-slate-900 mb-2 group-hover:text-brand-700 transition-colors">Gembul</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">Deskripsi singkat Gembul.</p>
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600 text-xl mb-5"><i class="fa-solid fa-dice"></i></div>
+                        <h3 class="font-display font-bold text-xl text-slate-900 mb-2 group-hover:text-amber-700 transition-colors">GEMBUL</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">Gemar Berdampak untuk Lingkungan: Creative Eco-Kit, boardgame Ular Tangga sekolah, magnet kulkas, &amp; Eco-Pass.</p>
                     </div>
-                    <span class="mt-6 pt-4 border-t border-slate-100 text-sm font-bold text-brand-700 inline-flex items-center gap-2">Kunjungi Website <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i></span>
+                    <span class="mt-6 pt-4 border-t border-slate-100 text-sm font-bold text-amber-700 inline-flex items-center gap-2">Pelajari GEMBUL <i class="fa-solid fa-arrow-right text-xs"></i></span>
                 </a>
 
                 <!-- Everware (via WhatsApp) -->
@@ -1469,10 +1507,11 @@ if ($ulasan_table_exists) {
                     <h4 class="font-display font-bold text-white text-sm uppercase tracking-wider mb-4">Navigasi Utama</h4>
                     <ul class="space-y-2.5 text-sm">
                         <li><a href="#tentang-kami" class="hover:text-brand-400 transition-colors">Tentang Kami &amp; Inisiatif</a></li>
-                        <li><a href="#cara-kerja" class="hover:text-brand-400 transition-colors">Cara Kerja</a></li>
-                        <li><a href="#katalog" class="hover:text-brand-400 transition-colors">Direktori Sampah</a></li>
-                        <li><a href="#ekosistem" class="hover:text-brand-400 transition-colors">Keunggulan Platform</a></li>
-                        <li><a href="#rewards" class="hover:text-brand-400 transition-colors">Katalog Hadiah</a></li>
+                        <li><a href="trashsmart.php" class="hover:text-brand-400 transition-colors">TrashSmart IoT Bin</a></li>
+                        <li><a href="smartkolecer.php" class="hover:text-brand-400 transition-colors">SmartKolecer Edukasi</a></li>
+                        <li><a href="gembul.php" class="text-amber-400 hover:text-amber-300 font-semibold transition-colors flex items-center gap-1.5"><i class="fa-solid fa-dice text-xs"></i> GEMBUL (Creative Eco-Kit)</a></li>
+                        <li><a href="harga.php" class="hover:text-brand-400 transition-colors">Daftar Harga Sampah</a></li>
+                        <li><a href="ulasan.php" class="hover:text-brand-400 transition-colors">Ulasan Komunitas</a></li>
                     </ul>
                 </div>
 
@@ -1858,6 +1897,9 @@ if ($ulasan_table_exists) {
             if (force || !seen()) setTimeout(openPopup, 1000);
         })(); 
     </script>
+
+    <!-- FLOATING CHATBOT AI -->
+    <?php include __DIR__ . '/includes/chatbot.php'; ?>
 </body>
 
 </html>

@@ -138,7 +138,7 @@ $dash_url  = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php'
 
                 <!-- 2 Kiri, 2 Kanan Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                    <!-- Kiri: 2 Inovasi IoT -->
+                    <!-- Kiri: Inovasi & Gerakan Edukasi -->
                     <div class="space-y-2">
                         <!-- TrashSmart (Sedang Dilihat) -->
                         <a href="trashsmart.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-brand-300 hover:bg-brand-50/50 transition-all duration-200">
@@ -173,9 +173,26 @@ $dash_url  = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php'
                             </div>
                             <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
                         </a>
+
+                        <!-- GEMBUL -->
+                        <a href="gembul.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
+                            <div class="text-amber-500 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
+                                <i class="fa-solid fa-dice"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-amber-600 transition-colors">GEMBUL</h4>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-50 text-amber-700">Creative Eco-Kit</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    Gerakan pilah sampah: Ular Tangga edukasi sekolah, magnet kulkas &amp; tantangan rumah.
+                                </p>
+                            </div>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-amber-600 transition-all self-center"></i>
+                        </a>
                     </div>
 
-                    <!-- Kanan: 2 Layanan & Komunitas -->
+                    <!-- Kanan: Layanan, Komunitas & Jadwal -->
                     <div class="space-y-2">
                         <!-- Daftar Harga -->
                         <a href="harga.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
@@ -209,6 +226,23 @@ $dash_url  = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php'
                                 </p>
                             </div>
                             <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
+                        </a>
+
+                        <!-- Jadwal Kegiatan Publik -->
+                        <a href="gembul.php#jadwal" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-amber-200 hover:bg-amber-50/40 transition-all duration-200">
+                            <div class="text-amber-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-amber-700 transition-colors">Jadwal Kegiatan</h4>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-100 text-amber-800">Publik</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    Lihat agenda roadshow sekolah, aksi bersih sungai, dan workshop daur ulang terbuka.
+                                </p>
+                            </div>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-amber-600 transition-all self-center"></i>
                         </a>
                     </div>
                 </div>
@@ -248,6 +282,10 @@ $dash_url  = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php'
                     <a href="smartkolecer.php" class="flex items-center justify-between px-4 py-2.5 rounded-lg font-semibold text-slate-800 hover:bg-slate-100">
                         <span class="flex items-center gap-2"><i class="fa-solid fa-fan text-sky-600"></i> SmartKolecer</span>
                         <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-sky-100 text-sky-700">IoT</span>
+                    </a>
+                    <a href="gembul.php" class="flex items-center justify-between px-4 py-2.5 rounded-lg font-semibold text-slate-800 hover:bg-slate-100">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-dice text-amber-500"></i> GEMBUL</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-amber-100 text-amber-700">Eco-Kit</span>
                     </a>
                     <a href="harga.php" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-slate-100">Daftar Harga</a>
                     <a href="ulasan.php" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-slate-100">Ulasan Pengguna</a>
@@ -1018,6 +1056,7 @@ $dash_url  = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php'
                     <ul class="space-y-2.5 text-sm">
                         <li><a href="trashsmart.php" class="text-brand-400 font-semibold hover:text-brand-300 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-trash-can-arrow-up text-xs"></i> TrashSmart (IoT Bin)</a></li>
                         <li><a href="smartkolecer.php" class="hover:text-brand-400 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-fan text-xs"></i> SmartKolecer (IoT Wind)</a></li>
+                        <li><a href="gembul.php" class="hover:text-amber-400 transition-colors flex items-center gap-1.5 text-amber-300 font-semibold"><i class="fa-solid fa-dice text-xs"></i> GEMBUL (Creative Eco-Kit)</a></li>
                         <li><a href="harga.php" class="hover:text-brand-400 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-tags text-xs"></i> Daftar Harga Sampah</a></li>
                         <li><a href="ulasan.php" class="hover:text-brand-400 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-comments text-xs"></i> Ulasan Komunitas</a></li>
                     </ul>
@@ -1233,6 +1272,9 @@ $dash_url  = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php'
             });
         })();
     </script>
+
+    <!-- FLOATING CHATBOT AI -->
+    <?php include __DIR__ . '/includes/chatbot.php'; ?>
 </body>
 
 </html>
