@@ -640,9 +640,6 @@ if ($ulasan_table_exists) {
         <div class="max-w-7xl mx-auto relative z-10">
             <!-- Section Header -->
             <div class="text-center max-w-4xl mx-auto mb-16 reveal">
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-100 border border-brand-200 text-brand-800 font-bold text-xs uppercase tracking-widest mb-4">
-                    <i class="fa-solid fa-users-rays text-brand-600"></i> Inisiatif Youth Advisory Bogor
-                </span>
                 <h2 class="text-3xl md:text-5xl font-display font-extrabold text-slate-900 tracking-tight leading-tight">
                     Membangun Generasi Muda Berdaya Lewat <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-emerald-500">Kreativitas &amp; Daur Ulang</span>
                 </h2>
@@ -701,7 +698,6 @@ if ($ulasan_table_exists) {
             <div class="reveal">
                 <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
                     <div>
-                        <span class="text-xs font-extrabold uppercase tracking-widest text-brand-600">Showcase Karya &amp; Kegiatan</span>
                         <h3 class="text-2xl md:text-4xl font-display font-extrabold text-slate-900 tracking-tight mt-1">
                             Galeri Produk Daur Ulang &amp; Aktivitas Pemuda
                         </h3>
@@ -835,9 +831,6 @@ if ($ulasan_table_exists) {
         <div class="max-w-7xl mx-auto">
             <!-- Section Title -->
             <div class="text-center max-w-3xl mx-auto mb-20 reveal">
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-100 border border-brand-200 text-brand-800 font-bold text-xs uppercase tracking-widest mb-4">
-                    <i class="fa-solid fa-route"></i> Simple Workflow
-                </span>
                 <h2 class="text-3xl md:text-5xl font-display font-extrabold text-slate-900 tracking-tight">
                     Mulai Daur Ulang dalam 4 Langkah Simpel
                 </h2>
@@ -936,9 +929,6 @@ if ($ulasan_table_exists) {
         <div class="max-w-7xl mx-auto mb-12">
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 reveal">
                 <div>
-                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-100 border border-brand-200 text-brand-800 font-bold text-xs uppercase tracking-widest mb-4">
-                        <i class="fa-solid fa-list-check"></i> Transparent Pricing
-                    </span>
                     <h2 class="text-3xl md:text-4xl font-display font-extrabold text-slate-900 tracking-tight">
                         Direktori Sampah &amp; Estimasi Rate Poin
                     </h2>
@@ -1025,9 +1015,6 @@ if ($ulasan_table_exists) {
         <div class="max-w-7xl mx-auto">
             <!-- Section Header -->
             <div class="text-center max-w-4xl mx-auto mb-16 reveal">
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-100 border border-brand-200 text-brand-800 font-bold text-xs uppercase tracking-widest mb-4">
-                    <i class="fa-solid fa-cubes"></i> Advanced Platform
-                </span>
                 <h2 class="text-3xl md:text-5xl font-display font-extrabold text-slate-900 tracking-tight">
                     Fitur Unggulan Berstandar Enterprise
                 </h2>
@@ -1145,9 +1132,6 @@ if ($ulasan_table_exists) {
     <section id="kolaborator" class="py-24 px-4 md:px-8 bg-brand-50 border-t border-slate-200/80">
         <div class="max-w-7xl mx-auto">
             <div class="text-center max-w-3xl mx-auto mb-16 reveal">
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-100 border border-brand-200 text-brand-800 font-bold text-xs uppercase tracking-widest mb-4">
-                    <i class="fa-solid fa-handshake"></i> Ekosistem Kolaborasi
-                </span>
                 <h2 class="text-3xl md:text-5xl font-display font-extrabold text-slate-900 tracking-tight">
                     Mitra &amp; Kolaborator
                 </h2>
@@ -1194,9 +1178,6 @@ if ($ulasan_table_exists) {
         <div class="max-w-7xl mx-auto">
             <!-- Section Title -->
             <div class="text-center max-w-4xl mx-auto mb-16 reveal">
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-100 border border-brand-200 text-brand-800 font-bold text-xs uppercase tracking-widest mb-4">
-                    <i class="fa-solid fa-gift"></i> Rewards Center
-                </span>
                 <h2 class="text-3xl md:text-5xl font-display font-extrabold text-slate-900 tracking-tight">
                     Pilihan Hadiah &amp; Voucher Menarik
                 </h2>
@@ -1323,9 +1304,6 @@ if ($ulasan_table_exists) {
         <div class="max-w-7xl mx-auto">
             <!-- Section Header -->
             <div class="text-center max-w-4xl mx-auto mb-16 reveal">
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-100 border border-brand-200 text-brand-800 font-bold text-xs uppercase tracking-widest mb-4">
-                    <i class="fa-solid fa-heart"></i> Social Proof
-                </span>
                 <h2 class="text-3xl md:text-5xl font-display font-extrabold text-slate-900 tracking-tight">
                     Dipercaya Ratusan Keluarga &amp; Pengusaha
                 </h2>
@@ -1380,9 +1358,6 @@ if ($ulasan_table_exists) {
         <div class="max-w-4xl mx-auto">
             <!-- Section Header -->
             <div class="text-center mb-16 reveal">
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-100 border border-brand-200 text-brand-800 font-bold text-xs uppercase tracking-widest mb-4">
-                    <i class="fa-solid fa-circle-question"></i> FAQ Center
-                </span>
                 <h2 class="text-3xl md:text-5xl font-display font-extrabold text-slate-900 tracking-tight">
                     Pertanyaan Sering Diajukan
                 </h2>
@@ -1438,9 +1413,6 @@ if ($ulasan_table_exists) {
                 <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-400/20 rounded-full blur-3xl pointer-events-none"></div>
 
                 <div class="relative z-10 max-w-3xl mx-auto space-y-6">
-                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-brand-200 border border-white/20 font-bold text-xs uppercase tracking-widest">
-                        <i class="fa-solid fa-leaf"></i> Join The Movement
-                    </span>
                     <h2 class="text-3xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-tight">
                         Siap Memulai Langkah Hijau &amp; Meraih Manfaatnya?
                     </h2>

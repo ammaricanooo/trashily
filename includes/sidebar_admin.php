@@ -8,6 +8,7 @@ if (!isset($conn)) {
 
 $nav_jemput_count = 0;
 $nav_penukaran_count = 0;
+$nav_ts_warn_count = 0;
 
 if (isset($conn)) {
     $r_j = $conn->query("SELECT COUNT(*) as c FROM jemput_sampah WHERE status NOT IN ('selesai', 'batal')");
@@ -15,6 +16,9 @@ if (isset($conn)) {
 
     $r_p = $conn->query("SELECT COUNT(*) as c FROM penukaran WHERE status = 'pending'");
     if ($r_p) $nav_penukaran_count = intval($r_p->fetch_assoc()['c'] ?? 0);
+
+    $r_ts = $conn->query("SELECT COUNT(*) as c FROM trashsmart_devices WHERE status = 'warning'");
+    if ($r_ts) $nav_ts_warn_count = intval($r_ts->fetch_assoc()['c'] ?? 0);
 }
 ?>
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
@@ -67,6 +71,13 @@ if (isset($conn)) {
             </a>
             <a href="<?= BASE_URL ?>/admin/lokasi.php" class="nav-item <?= ($current === 'lokasi.php') ? 'active' : '' ?>">
                 <i class="fa-solid fa-map-location-dot"></i> Lokasi Trashily
+            </a>
+            <a href="<?= BASE_URL ?>/admin/monitoring-trashsmart.php" class="nav-item <?= ($current === 'monitoring-trashsmart.php') ? 'active' : '' ?>">
+                <i class="fa-solid fa-trash-can-arrow-up"></i>
+                <span>TrashSmart</span>
+                <?php if ($nav_ts_warn_count > 0): ?>
+                <span class="nav-badge-pill"><?= $nav_ts_warn_count ?></span>
+                <?php endif; ?>
             </a>
         </div>
         <div class="nav-section">
