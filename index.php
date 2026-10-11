@@ -1168,7 +1168,7 @@ if ($ulasan_table_exists) {
                 </a>
 
                 <!-- Gembul -->
-                <a href="https://URL-GEMBUL" target="_blank" rel="noopener" class="bg-white border border-slate-200 hover:border-brand-500/50 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group reveal" style="transition-delay:.1s">
+                <a href="https://wa.me/6285694944797?text=Halo%20Gembul%2C%20saya%20dari%20Trashily" target="_blank" rel="noopener" class="bg-white border border-slate-200 hover:border-brand-500/50 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group reveal" style="transition-delay:.1s">
                     <div>
                         <div class="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 text-xl mb-5"><i class="fa-solid fa-leaf"></i></div>
                         <h3 class="font-display font-bold text-xl text-slate-900 mb-2 group-hover:text-brand-700 transition-colors">Gembul</h3>
@@ -1839,7 +1839,7 @@ if ($ulasan_table_exists) {
                 { badge: 'Sampah Organik', icon: 'fa-seedling',
                   title: 'Organikmu Disalurkan ke Gembul',
                   text: 'Sampah organik yang masuk lewat Trashily disalurkan ke Gembul, mitra kami yang mengelola sampah organik.',
-                  cta: 'Kenali Gembul', href: 'https://URL-GEMBUL', ext: true },
+                  cta: 'Hubungi via WhatsApp', href: 'https://wa.me/6285694944797?text=Halo%20Gembul%2C%20saya%20dari%20Trashily', ext: true },
                 { badge: 'Baju Bekas', icon: 'fa-shirt',
                   title: 'Donasikan Baju Bekasmu ke Everware',
                   text: 'Punya pakaian layak pakai yang sudah tidak terpakai? Donasikan lewat Everware, hubungi langsung via WhatsApp.',
