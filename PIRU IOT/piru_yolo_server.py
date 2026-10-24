@@ -50,7 +50,7 @@ DEFAULT_API_KEY      = "TRASHILY_SECRET_KEY_DEMO"
 # Konfigurasi MQTT Broker (Debian VPS Mosquitto / Cloud)
 DEFAULT_MQTT_ENABLED = True
 DEFAULT_MQTT_HOST    = "139.99.122.214"   # Ganti dengan IP Publik VPS Debian Anda
-DEFAULT_MQTT_PORT    = 20064          # Port standar 1883 (atau port NAT VPS Anda)
+DEFAULT_MQTT_PORT    = 20067          # Port MQTT NAT VPS Anda
 DEFAULT_MQTT_USER    = "piru"        # User dari mosquitto_passwd
 DEFAULT_MQTT_PASS    = "piru"
 DEFAULT_MQTT_SSL     = False
@@ -104,8 +104,6 @@ def load_or_create_config(filepath: str = CONFIG_FILE_NAME) -> Dict:
 def auto_detect_model_path() -> str:
     """Mendeteksi model YOLO terbaik yang tersedia di folder proyek."""
     candidate_models = [
-        "waste_model.pt",
-        "waste_yolo_nano.pt",
         "yolov8s.pt",
         "yolov8n.pt"
     ]

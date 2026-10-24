@@ -10,7 +10,7 @@
   "mqtt": {
     "enabled": true,
     "host": "139.99.122.214",
-    "port": 20064,
+    "port": 20067,
     "user": "piru",
     "pass": "piru",
     "ssl": false

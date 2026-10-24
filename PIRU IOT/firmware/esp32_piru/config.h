@@ -109,8 +109,8 @@
 #define USE_WIFI_MQTT true           // true: Aktifkan komunikasi wireless MQTT
 #define WIFI_SSID "Redmi Note 14"    // Nama WiFi / Hotspot
 #define WIFI_PASSWORD "aaaaaaab"     // Password WiFi
-#define MQTT_SERVER "139.99.122.214" // IP Publik / Domain Server Debian Anda
-#define MQTT_PORT 20064              // Port Mosquitto (atau port NAT VPS)
+#define MQTT_SERVER "139.99.122.214" // IP Publik Server Debian Anda
+#define MQTT_PORT 20067              // Port Publik NAT Mosquitto
 #define MQTT_USER "piru" // Username yang dibuat via mosquitto_passwd
 #define MQTT_PASS "piru" // Password yang dibuat via mosquitto_passwd
 #define PIRU_DEVICE_ID "PIRU-DEV-001" // ID Unit PIRU Smart Bin
