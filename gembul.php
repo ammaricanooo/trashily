@@ -41,10 +41,10 @@ if (isset($conn) && $conn instanceof mysqli) {
         'title' => 'GEMBUL — Gerakan Gemar Berdampak untuk Lingkungan & Creative Eco-Kit | Trashily',
         'description' => 'GEMBUL: Gerakan perubahan perilaku pilah sampah anak muda lewat Creative Eco-Kit, Ular Tangga edukasi sekolah, Eco-Pass, dan jadwal roadshow di Bogor.',
         'keywords' => 'gerakan gembul, eco-kit sekolah, pemuda peduli sampah, edukasi pilah sampah bogor, ular tangga daur ulang, trashily',
-        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/gembul.php',
+        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/gembul.php',
         'breadcrumbs' => [
-            'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/',
-            'Program GEMBUL' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/gembul.php'
+            'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/',
+            'Program GEMBUL' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/gembul.php'
         ]
     ]);
     ?>

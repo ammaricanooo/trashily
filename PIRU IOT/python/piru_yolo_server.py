@@ -42,8 +42,8 @@ DEFAULT_BAUD_RATE    = 115200
 DEFAULT_CAMERA_ID    = 0
 DEFAULT_CONFIDENCE   = 0.25
 
-# Endpoint REST API Trashily.id (di cPanel Shared Hosting atau Localhost)
-DEFAULT_TRASHILY_API = "http://localhost/trashily/api/piru-log.php"
+# Endpoint REST API Trashily.id (di cPanel Shared Hosting)
+DEFAULT_TRASHILY_API = "https://trashily.id/api/piru-log.php"
 DEFAULT_DEVICE_ID    = "PIRU-DEV-001"
 DEFAULT_API_KEY      = "TRASHILY_SECRET_KEY_DEMO"
 

@@ -43,7 +43,7 @@ $latest_articles = $conn->query("SELECT id, judul, slug, kategori, ringkasan, ga
         'title' => 'Trashily — Ecosystem Bank Sampah Digital & Rewards Platform Terbesar di Bogor',
         'description' => 'Platform bank sampah digital berbasis poin tercanggih di Bogor. Pilah sampah plastik, kardus, kaleng, nikmati layanan jemput ke rumah, dan tukarkan poin dengan uang tunai atau sembako.',
         'keywords' => 'bank sampah, bank sampah bogor, daur ulang sampah plastik, pilah sampah dapat uang, jemput sampah gratis, trashsmart iot, smartkolecer, gembul eco-kit, harga sampah bogor, trashily',
-        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/',
+        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/',
         'faqs' => $homepageFaqs
     ]);
     ?>

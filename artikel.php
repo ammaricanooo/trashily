@@ -55,10 +55,10 @@ $popArticles = $conn->query("SELECT judul, slug, kategori, views, created_at FRO
 // SEO Configuration
 $pageTitle = 'Artikel & Edukasi Lingkungan Bank Sampah | Trashily';
 $pageDesc  = 'Pusat edukasi daur ulang sampah, panduan pemilahan bernilai rupiah, inovasi TrashSmart IoT, dan gerakan GEMBUL terlengkap dari Trashily Bogor.';
-$canonical = (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/artikel.php' . ($kategori ? '?kategori='.urlencode($kategori) : '');
+$canonical = (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/artikel.php' . ($kategori ? '?kategori='.urlencode($kategori) : '');
 
 $breadcrumbs = [
-    'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/',
+    'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/',
     'Artikel & Edukasi' => $canonical
 ];
 

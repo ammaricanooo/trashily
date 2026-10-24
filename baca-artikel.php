@@ -35,7 +35,7 @@ if (!isset($_COOKIE[$viewCookie])) {
 
 // URL & Canonical
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$host = $_SERVER['HTTP_HOST'] ?? 'trashily.id';
 $siteUrl = rtrim($protocol . $host . BASE_URL, '/');
 $canonicalUrl = $siteUrl . '/baca-artikel.php?slug=' . urlencode($article['slug']);
 

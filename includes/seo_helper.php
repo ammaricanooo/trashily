@@ -8,7 +8,7 @@
 if (!function_exists('render_seo_tags')) {
     function render_seo_tags($options = []) {
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $host = $_SERVER['HTTP_HOST'] ?? 'trashily.id';
         $base = defined('BASE_URL') ? BASE_URL : '';
         $siteUrl = rtrim($protocol . $host . $base, '/');
         

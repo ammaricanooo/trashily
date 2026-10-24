@@ -16,7 +16,7 @@ import urllib.parse
 import urllib.request
 
 DEFAULT_DEVICE_ID = "PIRU-DEV-001"
-DEFAULT_HOST = "localhost"
+DEFAULT_HOST = "trashily.id"
 
 
 def get_local_ip() -> str:
@@ -32,7 +32,12 @@ def get_local_ip() -> str:
 
 
 def generate_qr(host: str, device_id: str, output_dir: str = "."):
-    target_url = f"http://{host}/trashily/piru.php?device={device_id}"
+    if host in ["trashily.id", "www.trashily.id"]:
+        target_url = f"https://{host}/piru.php?device={device_id}"
+    elif "." in host and not host.replace(".", "").isdigit():
+        target_url = f"https://{host}/piru.php?device={device_id}"
+    else:
+        target_url = f"http://{host}/trashily/piru.php?device={device_id}"
     print(f"\n[QR GENERATOR] Target URL: {target_url}")
 
     encoded_url = urllib.parse.quote(target_url)

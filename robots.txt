@@ -10,5 +10,5 @@ Disallow: /auth/
 Crawl-delay: 1
 
 # Sitemaps
-Sitemap: http://localhost/trashily/sitemap.php
-Sitemap: http://localhost/trashily/sitemap.xml
+Sitemap: https://trashily.id/sitemap.php
+Sitemap: https://trashily.id/sitemap.xml

@@ -57,10 +57,10 @@ foreach ($kategori_meta as $key => [$label, $icon, $warna]) {
         'title' => 'Daftar Harga Sampah Daur Ulang Bogor 2026 Terbaru | Trashily',
         'description' => 'Cek daftar harga sampah daur ulang terbaru 2026 di Bogor: plastik PET, kaleng aluminium, kardus, dan kertas. Dapatkan nilai rupiah dan poin tertinggi di Trashily.',
         'keywords' => 'harga sampah daur ulang bogor, daftar harga bank sampah, harga botol plastik per kg, harga kardus bekas, harga kaleng rongsok, trashily',
-        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/harga.php',
+        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/harga.php',
         'breadcrumbs' => [
-            'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/',
-            'Daftar Harga Sampah' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/harga.php'
+            'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/',
+            'Daftar Harga Sampah' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/harga.php'
         ]
     ]);
     ?>

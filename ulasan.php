@@ -53,10 +53,10 @@ $approved_reviews = $conn->query("SELECT ul.nama, ul.rating, ul.komentar, ul.cre
         'title' => 'Testimoni & Ulasan Warga Bank Sampah | Trashily Bogor',
         'description' => 'Baca ulasan dan pengalaman nyata masyarakat Bogor memilah sampah, menikmati layanan jemput sampah, dan menukarkan poin hadiah di Trashily.',
         'keywords' => 'testimoni bank sampah, ulasan trashily bogor, pengalaman tukar sampah jadi uang, bank sampah digital terpercaya',
-        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/ulasan.php',
+        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/ulasan.php',
         'breadcrumbs' => [
-            'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/',
-            'Ulasan Komunitas' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/ulasan.php'
+            'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/',
+            'Ulasan Komunitas' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/ulasan.php'
         ]
     ]);
     ?>

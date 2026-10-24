@@ -18,10 +18,10 @@ $dash_url  = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php'
         'title' => 'TrashSmart IoT — Tong Sampah Pintar Berbasis Sensor Pemilah | Trashily',
         'description' => 'TrashSmart IoT: Tempat sampah pintar berteknologi sensor ultrasonik dan telemetry cloud. Edukasi pemilahan sampah cerdas dan integrasi poin otomatis di Bogor.',
         'keywords' => 'trashsmart, iot smart bin, tong sampah pintar, tempat sampah iot indonesia, teknologi bank sampah bogor, smart waste management',
-        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/trashsmart.php',
+        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/trashsmart.php',
         'breadcrumbs' => [
-            'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/',
-            'TrashSmart IoT' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/trashsmart.php'
+            'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/',
+            'TrashSmart IoT' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/trashsmart.php'
         ]
     ]);
     ?>

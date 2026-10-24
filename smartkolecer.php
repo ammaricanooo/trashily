@@ -17,10 +17,10 @@ $dash_url = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' 
         'title' => 'SmartKolecer — Inovasi Kincir Angin IoT Edukasi Sampah Daur Ulang | Trashily',
         'description' => 'SmartKolecer menggabungkan kearifan lokal kolecer Sunda dengan bilah dari plastik daur ulang Trashily, sensor anemometer IoT, dan pemantauan energi bersih.',
         'keywords' => 'smartkolecer, kolecer iot, kincir angin daur ulang, inovasi sampah bogor, sensor anemometer, edukasi lingkungan',
-        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/smartkolecer.php',
+        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/smartkolecer.php',
         'breadcrumbs' => [
-            'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/',
-            'SmartKolecer' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/smartkolecer.php'
+            'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/',
+            'SmartKolecer' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'trashily.id') . BASE_URL . '/smartkolecer.php'
         ]
     ]);
     ?>

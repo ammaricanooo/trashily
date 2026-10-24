@@ -173,12 +173,12 @@ cd "c:\laragon\www\trashily\PIRU IOT"
 pip install -r requirements.txt
 python piru_yolo_server.py
 ```
-*Script otomatis mendeteksi COM Port ESP32 dan webcam laptop, lalu menghubungkan data ke `http://localhost/trashily/api/piru-log.php`.*
+*Script otomatis mendeteksi COM Port ESP32 dan webcam laptop, lalu menghubungkan data ke `https://trashily.id/api/piru-log.php`.*
 
 ### 3. Cetak / Tampilkan QR Code untuk Tong Sampah
 Jalankan script pembuat QR code:
 ```powershell
-# Menghasilkan QR Code untuk localhost
+# Menghasilkan QR Code untuk domain produksi trashily.id
 python generate_piru_qr.py
 
 # Atau deteksi IP Wi-Fi lokal otomatis agar dapat dipindai oleh HP di jaringan yang sama:
