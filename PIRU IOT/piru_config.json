@@ -1,0 +1,18 @@
+{
+  "device_id": "PIRU-DEV-001",
+  "api_key": "TRASHILY_SECRET_KEY_DEMO",
+  "trashily_api": "http://localhost/trashily/api/piru-log.php",
+  "camera_id": 0,
+  "confidence": 0.25,
+  "tts_enabled": true,
+  "allow_all": false,
+  "no_classify": false,
+  "mqtt": {
+    "enabled": true,
+    "host": "139.99.122.214",
+    "port": 20064,
+    "user": "piru",
+    "pass": "piru",
+    "ssl": false
+  }
+}

@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/includes/seo_helper.php';
 
 $logged_in = isset($_SESSION['user_id']);
 $dash_url = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' : 'customer/dashboard.php') : null;
@@ -10,8 +11,19 @@ $dash_url = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartKolecer — Trashily</title>
-    <meta name="description" content="SmartKolecer: kolecer IoT dengan baling-baling dari sampah daur ulang." />
+
+    <?php 
+    render_seo_tags([
+        'title' => 'SmartKolecer — Inovasi Kincir Angin IoT Edukasi Sampah Daur Ulang | Trashily',
+        'description' => 'SmartKolecer menggabungkan kearifan lokal kolecer Sunda dengan bilah dari plastik daur ulang Trashily, sensor anemometer IoT, dan pemantauan energi bersih.',
+        'keywords' => 'smartkolecer, kolecer iot, kincir angin daur ulang, inovasi sampah bogor, sensor anemometer, edukasi lingkungan',
+        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/smartkolecer.php',
+        'breadcrumbs' => [
+            'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/',
+            'SmartKolecer' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/smartkolecer.php'
+        ]
+    ]);
+    ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -580,11 +592,12 @@ $dash_url = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' 
                 <?php
                 // TODO: isi nama, peran, dan nama file foto (simpan di assets/tim/)
                 $tim = [
-                    ['Nur Komalasari', 'Ketua Tim',      'anggota1.jpg'],
-                    ['Justine', 'Pengembang IoT', 'anggota2.jpg'],
-                    ['Aprilia', 'Desain Produk',  'anggota3.jpg'],
-                    ['M Phazri Septian', 'Pengembang Web', 'anggota4.jpg'],
-                     ['Hani', 'Pengembang Web', 'anggota4.jpg'],
+                    ['Nur Komalasari', 'Ketua Tim', 'anggota1.jpg'],
+                    ['Zaira', 'Data Analyst', 'anggota2.jpg'],
+                    ['Justine', 'Pengembang IoT', 'anggota3.jpg'],
+                    ['Aprilia', 'Desain Produk', 'anggota4.jpg'],
+                    ['M Phazri Septian', 'Pengembang Web', 'anggota5.jpg'],
+                     ['Hani', 'Pengembang Web', 'anggota6.jpg'],
                 ];
                 foreach ($tim as [$nama, $peran, $foto]):
                     $path = 'assets/tim/' . $foto;

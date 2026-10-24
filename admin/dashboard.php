@@ -22,6 +22,16 @@ $recent_trx = $conn->query("
 $top_customer = $conn->query("
     SELECT nama, poin FROM users WHERE role='customer' ORDER BY poin DESC LIMIT 5
 ");
+
+$piru_info = $conn->query("
+    SELECT d.*, 
+           (SELECT COUNT(*) FROM piru_sessions WHERE status='completed') as total_sesi,
+           (SELECT COUNT(*) FROM piru_session_items) as total_items,
+           (SELECT COALESCE(SUM(total_poin),0) FROM piru_sessions WHERE status='completed') as total_poin_piru
+    FROM trashsmart_devices d 
+    WHERE d.kode_perangkat = 'PIRU-DEV-001' 
+    LIMIT 1
+")->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -136,6 +146,57 @@ $top_customer = $conn->query("
                     </div>
                 </div>
             </div>
+
+            <!-- PIRU AI SMART BIN QUICK CARD -->
+            <?php if (!empty($piru_info)): ?>
+            <div class="card mb-6" style="background: linear-gradient(135deg, #064e29 0%, #006e2f 100%); color:#fff; border:none; box-shadow:0 10px 25px -5px rgba(0,110,47,0.3); border-radius:var(--radius-xl); overflow:hidden;">
+                <div class="card-body" style="padding: 1.25rem 1.5rem;">
+                    <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;">
+                        <div style="display:flex; align-items:center; gap:1rem;">
+                            <div style="width:48px; height:48px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.25);">
+                                <i class="fa-solid fa-microchip"></i>
+                            </div>
+                            <div>
+                                <div style="display:flex; align-items:center; gap:.5rem; margin-bottom:4px;">
+                                    <span class="badge" style="background:#10b981; color:#fff; font-size:.68rem; font-weight:700; padding:2px 8px;">
+                                        ● ONLINE &bull; YOLO AI VISION
+                                    </span>
+                                    <span style="font-size:.75rem; color:rgba(255,255,255,0.85); font-weight:600;">
+                                        <?= htmlspecialchars($piru_info['kode_perangkat']) ?>
+                                    </span>
+                                </div>
+                                <h3 style="font-size:1.15rem; font-weight:800; color:#fff; margin:0;">
+                                    <?= htmlspecialchars($piru_info['nama_perangkat']) ?>
+                                </h3>
+                                <p style="font-size:.78rem; color:rgba(255,255,255,0.85); margin:2px 0 0 0;">
+                                    <i class="fa-solid fa-location-dot"></i> <?= htmlspecialchars($piru_info['lokasi']) ?> &bull; Kapasitas Wadah: <strong><?= intval($piru_info['kapasitas_organik']) ?>% Org</strong> / <strong><?= intval($piru_info['kapasitas_anorganik']) ?>% Anorg</strong>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap;">
+                            <div style="text-align:right;">
+                                <div style="font-size:1.25rem; font-weight:800; color:#fff;">
+                                    <?= number_format($piru_info['total_items']) ?> <small style="font-size:.75rem; font-weight:normal; opacity:.85;">item terpilah</small>
+                                </div>
+                                <div style="font-size:.75rem; font-weight:700; color:#a7f3d0;">
+                                    +<?= number_format($piru_info['total_poin_piru']) ?> Poin disalurkan
+                                </div>
+                            </div>
+
+                            <div style="display:flex; gap:.5rem;">
+                                <a href="monitoring-piru.php" class="btn btn-sm" style="background:#fff; color:#006e2f; font-weight:700; border-radius:10px; padding:.45rem .9rem; border:none; text-decoration:none; display:inline-flex; align-items:center; gap:.4rem;">
+                                    <i class="fa-solid fa-chart-line"></i> Pantau PIRU
+                                </a>
+                                <a href="../customer/piru.php?dev=<?= urlencode($piru_info['kode_perangkat']) ?>" target="_blank" class="btn btn-sm" style="background:rgba(255,255,255,0.18); color:#fff; border:1px solid rgba(255,255,255,0.3); border-radius:10px; padding:.45rem .7rem;" title="Buka Simulasi Customer">
+                                    <i class="fa-solid fa-qrcode"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
 
             <!-- MAIN GRID -->
             <div class="dashboard-grid">

@@ -57,6 +57,7 @@ $transaksi_list = $stmt->get_result();
 
 // Count Setor Sendiri pending
 $count_ss_pending = $conn->query("SELECT COUNT(*) as c FROM transaksi WHERE tipe_transaksi = 'setor_sendiri' AND status = 'pending'")->fetch_assoc()['c'];
+$count_piru = $conn->query("SELECT COUNT(*) as c FROM transaksi WHERE kode_transaksi LIKE 'PIRU%' OR catatan LIKE '%PIRU%'")->fetch_assoc()['c'] ?? 0;
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -205,6 +206,13 @@ $count_ss_pending = $conn->query("SELECT COUNT(*) as c FROM transaksi WHERE tipe
                            class="filter-tab <?= $filter === 'selesai' ? 'active' : '' ?>">
                             <i class="fa-solid fa-circle-check text-xs"></i> Selesai
                         </a>
+                        <a href="?filter=piru&search=<?= urlencode($search) ?>"
+                           class="filter-tab <?= $filter === 'piru' ? 'active' : '' ?>">
+                            <i class="fa-solid fa-microchip text-xs"></i> PIRU Smart Bin
+                            <?php if (($count_piru ?? 0) > 0): ?>
+                            <span class="tab-count"><?= $count_piru ?></span>
+                            <?php endif; ?>
+                        </a>
                     </div>
 
                     <form method="GET" class="search-form-inline">
@@ -266,7 +274,11 @@ $count_ss_pending = $conn->query("SELECT COUNT(*) as c FROM transaksi WHERE tipe
                                 <td>
                                     <span class="badge <?= $is_ss_pending ? 'badge-orange' : 'badge-green' ?>"><?= $row['kode_transaksi'] ?></span>
                                     <div class="text-muted text-small" style="margin-top:.2rem">
-                                        <?= $row['tipe_transaksi'] === 'setor_sendiri' ? 'Setor Sendiri' : 'Langsung' ?>
+                                        <?php if (strpos($row['kode_transaksi'], 'PIRU') === 0 || strpos($row['catatan'] ?? '', 'PIRU') !== false): ?>
+                                            <span style="color:#006e2f;font-weight:700;"><i class="fa-solid fa-microchip"></i> PIRU Smart Bin</span>
+                                        <?php else: ?>
+                                            <?= $row['tipe_transaksi'] === 'setor_sendiri' ? 'Setor Sendiri' : 'Langsung' ?>
+                                        <?php endif; ?>
                                     </div>
                                 </td>
                                 <td>

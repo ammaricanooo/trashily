@@ -3,8 +3,12 @@ session_start();
 require_once '../config/database.php';
 
 if (isset($_SESSION['user_id'])) {
+    $from_piru = isset($_GET['from']) && $_GET['from'] === 'piru';
     $from_everwear = isset($_GET['from']) && $_GET['from'] === 'everwear';
-    if ($from_everwear) {
+    if ($from_piru) {
+        $device = $_GET['device'] ?? 'PIRU-DEV-001';
+        header('Location: ../customer/piru.php?device=' . urlencode($device));
+    } else if ($from_everwear) {
         header('Location: ../' . ($_SESSION['role'] === 'admin' ? 'admin/everwear/dashboard.php' : 'everwear/dashboard.php'));
     } else {
         header('Location: ../' . ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' : 'customer/dashboard.php'));
@@ -35,8 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['role']      = $user['role'];
             $_SESSION['poin']      = $user['poin'];
 
+            $from_piru = isset($_POST['from_piru']) && $_POST['from_piru'] === '1';
             $from_everwear = isset($_POST['from_everwear']) && $_POST['from_everwear'] === '1';
-            if ($from_everwear) {
+            if ($from_piru) {
+                $device = $_POST['device'] ?? 'PIRU-DEV-001';
+                $redirect = '../customer/piru.php?device=' . urlencode($device);
+            } else if ($from_everwear) {
                 $redirect = $user['role'] === 'admin' ? '../admin/everwear/dashboard.php' : '../everwear/dashboard.php';
             } else {
                 $redirect = $user['role'] === 'admin' ? '../admin/dashboard.php' : '../customer/dashboard.php';
@@ -491,6 +499,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="POST" autocomplete="off">
                 <?php if (isset($_GET['from']) && $_GET['from'] === 'everwear'): ?>
                 <input type="hidden" name="from_everwear" value="1">
+                <?php endif; ?>
+                <?php if ((isset($_GET['from']) && $_GET['from'] === 'piru') || (isset($_POST['from_piru']) && $_POST['from_piru'] === '1')): ?>
+                <input type="hidden" name="from_piru" value="1">
+                <input type="hidden" name="device" value="<?= htmlspecialchars($_GET['device'] ?? ($_POST['device'] ?? 'PIRU-DEV-001')) ?>">
                 <?php endif; ?>
                 <div class="form-group">
                     <label for="email">Alamat Email</label>

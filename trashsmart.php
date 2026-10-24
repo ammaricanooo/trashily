@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/includes/seo_helper.php';
 
 $logged_in = isset($_SESSION['user_id']);
 $dash_url  = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' : 'customer/dashboard.php') : null;
@@ -11,8 +12,19 @@ $dash_url  = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php'
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrashSmart — Tempat Sampah IoT Berjiwa Edukator | Trashily</title>
-    <meta name="description" content="TrashSmart: Tempat sampah pintar 1 meter dual kompartemen dengan baki inspeksi, behavioral nudge suara ramah, dan reward poin otomatis ke ekosistem Trashily." />
+
+    <?php 
+    render_seo_tags([
+        'title' => 'TrashSmart IoT — Tong Sampah Pintar Berbasis Sensor Pemilah | Trashily',
+        'description' => 'TrashSmart IoT: Tempat sampah pintar berteknologi sensor ultrasonik dan telemetry cloud. Edukasi pemilahan sampah cerdas dan integrasi poin otomatis di Bogor.',
+        'keywords' => 'trashsmart, iot smart bin, tong sampah pintar, tempat sampah iot indonesia, teknologi bank sampah bogor, smart waste management',
+        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/trashsmart.php',
+        'breadcrumbs' => [
+            'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/',
+            'TrashSmart IoT' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/trashsmart.php'
+        ]
+    ]);
+    ?>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

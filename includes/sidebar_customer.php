@@ -37,6 +37,11 @@ if (isset($conn) && isset($_SESSION['user_id'])) {
             <a href="<?= BASE_URL ?>/customer/dashboard.php" class="nav-item <?= ($current === 'dashboard.php') ? 'active' : '' ?>">
                 <i class="fa-solid fa-house"></i> Beranda
             </a>
+            <a href="<?= BASE_URL ?>/customer/piru.php" class="nav-item <?= ($current === 'piru.php') ? 'active' : '' ?>">
+                <i class="fa-solid fa-qrcode"></i>
+                <span style="flex:1">PIRU Smart Bin</span>
+                <span class="nav-badge-pill" style="background:#16a34a;color:#fff">AI</span>
+            </a>
             <a href="<?= BASE_URL ?>/customer/setor.php" class="nav-item <?= ($current === 'setor.php') ? 'active' : '' ?>">
                 <i class="fa-solid fa-person-walking-luggage"></i>
                 <span style="flex:1">Setor Sendiri</span>

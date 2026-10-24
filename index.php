@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'config/database.php';
+require_once 'includes/seo_helper.php';
 
 $stat_customer = $conn->query("SELECT COUNT(*) as c FROM users WHERE role='customer'")->fetch_assoc()['c'] ?? 0;
 $stat_setor    = $conn->query("SELECT COUNT(*) as c FROM transaksi WHERE status='selesai'")->fetch_assoc()['c'] ?? 0;
@@ -20,6 +21,9 @@ if ($ulasan_table_exists) {
         ORDER BY ul.created_at DESC
         LIMIT 3");
 }
+
+// Latest Published Articles for Homepage (SEO Content & Internal Linking)
+$latest_articles = $conn->query("SELECT id, judul, slug, kategori, ringkasan, gambar, gambar_caption, penulis, baca_menit, created_at FROM artikel WHERE status = 'published' ORDER BY created_at DESC LIMIT 3");
 ?>
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
@@ -27,8 +31,22 @@ if ($ulasan_table_exists) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trashily — Ecosystem Bank Sampah Digital & Rewards Platform</title>
-    <meta name="description" content="Platform bank sampah berbasis poin tercanggih. Setor sampah pilahan, jemput ke rumah, dan tukarkan poin untuk hadiah seperti pulpen, alat tulis, atau sembako.">
+
+    <?php
+    $homepageFaqs = [
+        'Bagaimana cara mendaftar dan menukar sampah di Trashily?' => 'Anda cukup mendaftar akun gratis di Trashily, kumpulkan dan pilah sampah kering Anda (botol plastik, kaleng, kardus), lalu pilih opsi setor langsung ke drop point atau minta layanan penjemputan armada Trashily ke rumah. Poin akan langsung masuk ke akun Anda!',
+        'Berapa nilai rupiah atau poin yang saya dapatkan?' => 'Setiap kilogram sampah memiliki harga transparan. Contohnya kaleng aluminium Rp 3.500/kg (35 poin), botol plastik PET Rp 2.000/kg (20 poin), dan kardus Rp 1.500/kg (15 poin). Poin dapat dicairkan atau ditukarkan hadiah.',
+        'Apa itu TrashSmart IoT dan SmartKolecer di Trashily?' => 'TrashSmart adalah tempat sampah cerdas berteknologi IoT dengan sensor telemetri volume dan inspeksi baki, sedangkan SmartKolecer adalah kincir angin edukatif dari daur ulang sampah yang terhubung sensor cloud.',
+        'Apakah ada batas minimum berat sampah yang disetor?' => 'Untuk setor langsung tidak ada batas minimum. Untuk layanan penjemputan door-to-door, batas minimum adalah 1 kg (gabungan dari aneka jenis sampah kering).'
+    ];
+    render_seo_tags([
+        'title' => 'Trashily — Ecosystem Bank Sampah Digital & Rewards Platform Terbesar di Bogor',
+        'description' => 'Platform bank sampah digital berbasis poin tercanggih di Bogor. Pilah sampah plastik, kardus, kaleng, nikmati layanan jemput ke rumah, dan tukarkan poin dengan uang tunai atau sembako.',
+        'keywords' => 'bank sampah, bank sampah bogor, daur ulang sampah plastik, pilah sampah dapat uang, jemput sampah gratis, trashsmart iot, smartkolecer, gembul eco-kit, harga sampah bogor, trashily',
+        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/',
+        'faqs' => $homepageFaqs
+    ]);
+    ?>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -377,6 +395,7 @@ if ($ulasan_table_exists) {
                         Layanan &amp; Inovasi <i class="fa-solid fa-chevron-down text-[10px] opacity-80 transition-transform duration-200" id="layananChevron"></i>
                     </button>
                 </div>
+                <a href="artikel.php" class="text-sm font-bold text-white hover:text-brand-200 transition-colors nav-link-item">Artikel &amp; Edukasi</a>
                 <a href="#faq" class="text-sm font-bold text-white hover:text-brand-200 transition-colors nav-link-item">FAQ</a>
             </nav>
 
@@ -417,18 +436,18 @@ if ($ulasan_table_exists) {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
                     <!-- Kiri: Inovasi & Gerakan Edukasi -->
                     <div class="space-y-2">
-                        <!-- TrashSmart -->
-                        <a href="trashsmart.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
+                        <!-- PIRU Smart Bin -->
+                        <a href="piru.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
                             <div class="text-brand-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
-                                <i class="fa-solid fa-trash-can-arrow-up"></i>
+                                <i class="fa-solid fa-microchip"></i>
                             </div>
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center gap-2">
-                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-brand-600 transition-colors">TrashSmart</h4>
-                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-brand-50 text-brand-700">Baru &bull; IoT</span>
+                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-brand-600 transition-colors">PIRU (Pilah Runtah)</h4>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-brand-50 text-brand-700">IoT AI &bull; YOLO</span>
                                 </div>
                                 <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                                    Tempat sampah IoT edukatif dengan baki inspeksi, voice nudge, dan reward instan.
+                                    Tong sampah pintar Computer Vision YOLO &amp; telemetri dengan reward poin instan.
                                 </p>
                             </div>
                             <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
@@ -538,6 +557,23 @@ if ($ulasan_table_exists) {
                             </div>
                             <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-amber-600 transition-all self-center"></i>
                         </a>
+
+                        <!-- Artikel & Edukasi Lingkungan -->
+                        <a href="artikel.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
+                            <div class="text-brand-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
+                                <i class="fa-solid fa-book-open-reader"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-brand-600 transition-colors">Artikel &amp; Edukasi</h4>
+                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-brand-50 text-brand-700">Pusat Literasi</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    Panduan praktis pilah sampah bernilai tinggi, inovasi IoT, dan gerakan lingkungan Bogor.
+                                </p>
+                            </div>
+                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -554,6 +590,9 @@ if ($ulasan_table_exists) {
                         <a href="#rewards" class="text-slate-600 hover:text-brand-600 transition-colors flex items-center gap-1.5">
                             <i class="fa-solid fa-gift text-brand-600 text-xs"></i> Program Hadiah
                         </a>
+                        <a href="artikel.php" class="text-slate-600 hover:text-brand-600 transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-newspaper text-brand-600 text-xs"></i> Blog &amp; Artikel
+                        </a>
                     </div>
                 </div>
             </div>
@@ -569,9 +608,9 @@ if ($ulasan_table_exists) {
                 <!-- Sub-menu Section for Mobile -->
                 <div class="py-2 border-b border-slate-100 space-y-1">
                     <p class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Layanan &amp; Inovasi</p>
-                    <a href="trashsmart.php" onclick="toggleMobileMenu()" class="flex items-center justify-between text-slate-800 font-bold hover:text-brand-600 text-base py-2">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-trash-can-arrow-up text-brand-600 text-sm"></i> TrashSmart</span>
-                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-brand-100 text-brand-700">Baru</span>
+                    <a href="piru.php" onclick="toggleMobileMenu()" class="flex items-center justify-between text-slate-800 font-bold hover:text-brand-600 text-base py-2">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-microchip text-brand-600 text-sm"></i> PIRU (Pilah Runtah)</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-brand-100 text-brand-700">AI IoT</span>
                     </a>
                     <a href="smartkolecer.php" onclick="toggleMobileMenu()" class="flex items-center justify-between text-slate-800 font-bold hover:text-brand-600 text-base py-2">
                         <span class="flex items-center gap-2"><i class="fa-solid fa-fan text-sky-600 text-sm"></i> SmartKolecer</span>
@@ -586,6 +625,10 @@ if ($ulasan_table_exists) {
                         <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-brand-100 text-brand-700">Donasi</span>
                     </a>
                     <a href="harga.php" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2">Daftar Harga</a>
+                    <a href="artikel.php" onclick="toggleMobileMenu()" class="flex items-center justify-between text-slate-800 font-bold hover:text-brand-600 text-base py-2">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-newspaper text-brand-600 text-sm"></i> Artikel &amp; Edukasi</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-brand-100 text-brand-700">Baru</span>
+                    </a>
                     <a href="ulasan.php" onclick="toggleMobileMenu()" class="block text-slate-800 font-bold hover:text-brand-600 text-base py-2">Ulasan Pengguna</a>
                 </div>
 
@@ -1119,24 +1162,24 @@ if ($ulasan_table_exists) {
                         <div class="md:col-span-2">
                             <div class="flex flex-wrap items-center gap-2 mb-6">
                                 <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs border border-emerald-500/30">
-                                    Inovasi Baru &bull; IoT Smart Bin
+                                    Inovasi AI &bull; IoT Smart Bin
                                 </span>
                                 <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-white font-semibold text-xs border border-white/15">
-                                    Behavioral Nudge &bull; 1 Meter
+                                    YOLO Vision &bull; Dual Servo
                                 </span>
                             </div>
                             <h3 class="font-display font-bold text-2xl md:text-3xl text-white mb-4">
-                                TrashSmart: Tempat Sampah Pintar Berjiwa Edukator
+                                PIRU (Pilah Runtah): Tong Sampah Pintar Berbasis Computer Vision
                             </h3>
                             <p class="text-emerald-100/90 text-base leading-relaxed max-w-xl mb-6">
-                                Hadir setinggi 1 meter dengan baki inspeksi pintar dan dual pintu (hijau organik &amp; kuning anorganik). Dilengkapi modul suara ramah yang menegur langsung saat sampah keliru kamar, serta sensor timbangan otomatis yang langsung menambah saldo poin ke akun Trashily.
+                                Hadir dengan kamera AI YOLO Multi-Class dan baki pemilah ganda (organik &amp; anorganik). Dilengkapi sensor ultrasonik kompartemen, audio edukasi suara ramah, dan timbangan otomatis yang langsung menambahkan saldo poin reward ke akun Trashily Anda.
                             </p>
                             <div class="flex flex-wrap items-center gap-3">
-                                <a href="trashsmart.php" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm shadow-md transition-all hover:-translate-y-0.5">
-                                    Pelajari TrashSmart <i class="fa-solid fa-arrow-right text-xs"></i>
+                                <a href="piru.php" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm shadow-md transition-all hover:-translate-y-0.5">
+                                    Pelajari PIRU Smart Bin <i class="fa-solid fa-arrow-right text-xs"></i>
                                 </a>
-                                <a href="trashsmart.php#simulasi-suara" class="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white font-bold text-sm transition-all">
-                                    <i class="fa-solid fa-volume-high text-emerald-400"></i> Tes Suara Nudge
+                                <a href="piru.php#simulasi-piru" class="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white font-bold text-sm transition-all">
+                                    <i class="fa-solid fa-play text-emerald-400"></i> Coba Simulasi AI
                                 </a>
                             </div>
                         </div>
@@ -1200,14 +1243,14 @@ if ($ulasan_table_exists) {
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- TrashSmart -->
-                <a href="trashsmart.php" class="bg-white border border-slate-200 hover:border-brand-500/50 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group reveal">
+                <!-- PIRU (Pilah Runtah) -->
+                <a href="piru.php" class="bg-white border border-slate-200 hover:border-brand-500/50 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col justify-between group reveal">
                     <div>
-                        <div class="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 text-xl mb-5"><i class="fa-solid fa-trash-can-arrow-up"></i></div>
-                        <h3 class="font-display font-bold text-xl text-slate-900 mb-2 group-hover:text-brand-700 transition-colors">TrashSmart</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">Tempat sampah pintar berteknologi IoT dengan baki inspeksi, voice nudge edukatif, dan reward instan.</p>
+                        <div class="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 text-xl mb-5"><i class="fa-solid fa-microchip"></i></div>
+                        <h3 class="font-display font-bold text-xl text-slate-900 mb-2 group-hover:text-brand-700 transition-colors">PIRU (Pilah Runtah)</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">Tong sampah pintar berteknologi Computer Vision YOLO &amp; IoT dengan baki inspeksi, voice nudge edukatif, dan reward instan.</p>
                     </div>
-                    <span class="mt-6 pt-4 border-t border-slate-100 text-sm font-bold text-brand-700 inline-flex items-center gap-2">Pelajari TrashSmart <i class="fa-solid fa-arrow-right text-xs"></i></span>
+                    <span class="mt-6 pt-4 border-t border-slate-100 text-sm font-bold text-brand-700 inline-flex items-center gap-2">Pelajari PIRU Smart Bin <i class="fa-solid fa-arrow-right text-xs"></i></span>
                 </a>
 
                 <!-- Gembul -->
@@ -1463,6 +1506,72 @@ if ($ulasan_table_exists) {
         </div>
     </section>
 
+    <!-- ==================== ARTIKEL & EDUKASI LINGKUNGAN TERBARU ==================== -->
+    <section id="artikel-terbaru" class="py-20 px-4 md:px-8 bg-white border-t border-slate-100 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div>
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-50 border border-brand-200 text-brand-800 text-xs font-bold uppercase tracking-wider mb-3">
+                        <i class="fa-solid fa-book-open"></i> Pusat Edukasi &amp; Literasi
+                    </span>
+                    <h2 class="font-display font-extrabold text-3xl md:text-4xl text-slate-900 tracking-tight">
+                        Artikel &amp; Panduan <span class="text-brand-600">Daur Ulang</span>
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-2 max-w-xl">
+                        Pelajari cara memilah sampah bernilai tinggi, pembaruan teknologi TrashSmart IoT, serta gerakan aksi nyata anak muda di Bogor.
+                    </p>
+                </div>
+                <a href="artikel.php" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-100 hover:bg-brand-50 text-slate-700 hover:text-brand-700 font-bold text-xs transition border border-slate-200 self-start md:self-auto">
+                    Lihat Semua Artikel <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <?php if ($latest_articles && $latest_articles->num_rows > 0): ?>
+                    <?php while ($art = $latest_articles->fetch_assoc()): ?>
+                        <article class="bg-white rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-brand-400 transition-all duration-300 flex flex-col overflow-hidden group">
+                            <a href="baca-artikel.php?slug=<?= urlencode($art['slug']) ?>" class="block relative h-48 bg-slate-100 overflow-hidden">
+                                <?php if (!empty($art['gambar'])): ?>
+                                    <img src="<?= htmlspecialchars($art['gambar']) ?>" alt="<?= htmlspecialchars($art['gambar_caption'] ?: $art['judul']) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                                <?php else: ?>
+                                    <div class="w-full h-full bg-gradient-to-tr from-brand-800 to-emerald-600 flex items-center justify-center text-white text-4xl">
+                                        <i class="fa-solid fa-newspaper opacity-40"></i>
+                                    </div>
+                                <?php endif; ?>
+                                <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[11px] font-bold bg-white/95 backdrop-blur-md text-brand-800 shadow-xs">
+                                    <?= htmlspecialchars($art['kategori']) ?>
+                                </span>
+                            </a>
+                            <div class="p-6 flex-1 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center gap-3 text-xs text-slate-400 mb-2.5">
+                                        <span><i class="fa-regular fa-clock mr-1"></i> <?= $art['baca_menit'] ?> min baca</span>
+                                        <span>&bull;</span>
+                                        <span><?= date('d M Y', strtotime($art['created_at'])) ?></span>
+                                    </div>
+                                    <h3 class="font-display font-bold text-base md:text-lg text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2 leading-snug mb-2">
+                                        <a href="baca-artikel.php?slug=<?= urlencode($art['slug']) ?>">
+                                            <?= htmlspecialchars($art['judul']) ?>
+                                        </a>
+                                    </h3>
+                                    <p class="text-xs text-slate-600 line-clamp-3 leading-relaxed mb-4">
+                                        <?= htmlspecialchars($art['ringkasan']) ?>
+                                    </p>
+                                </div>
+                                <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+                                    <span class="font-semibold text-slate-700"><i class="fa-solid fa-pen-nib text-brand-600 mr-1"></i> <?= htmlspecialchars($art['penulis']) ?></span>
+                                    <a href="baca-artikel.php?slug=<?= urlencode($art['slug']) ?>" class="text-brand-600 font-bold hover:text-brand-800 transition flex items-center gap-1 group-hover:translate-x-0.5">
+                                        Baca <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
+
     <!-- ==================== LUXURIOUS LIGHT CTA BANNER ==================== -->
     <section class="py-20 px-4 md:px-8 bg-slate-50 relative overflow-hidden">
         <div class="max-w-7xl mx-auto">
@@ -1528,11 +1637,13 @@ if ($ulasan_table_exists) {
                     <h4 class="font-display font-bold text-white text-sm uppercase tracking-wider mb-4">Navigasi Utama</h4>
                     <ul class="space-y-2.5 text-sm">
                         <li><a href="#tentang-kami" class="hover:text-brand-400 transition-colors">Tentang Kami &amp; Inisiatif</a></li>
-                        <li><a href="trashsmart.php" class="hover:text-brand-400 transition-colors">TrashSmart IoT Bin</a></li>
+                        <li><a href="piru.php" class="hover:text-brand-400 transition-colors">PIRU (Pilah Runtah) Smart Bin</a></li>
                         <li><a href="smartkolecer.php" class="hover:text-brand-400 transition-colors">SmartKolecer Edukasi</a></li>
                         <li><a href="gembul.php" class="text-amber-400 hover:text-amber-300 font-semibold transition-colors flex items-center gap-1.5"><i class="fa-solid fa-dice text-xs"></i> GEMBUL (Creative Eco-Kit)</a></li>
                         <li><a href="harga.php" class="hover:text-brand-400 transition-colors">Daftar Harga Sampah</a></li>
+                        <li><a href="artikel.php" class="text-emerald-400 hover:text-emerald-300 font-semibold transition-colors">Artikel &amp; Edukasi</a></li>
                         <li><a href="ulasan.php" class="hover:text-brand-400 transition-colors">Ulasan Komunitas</a></li>
+                        <li><a href="sitemap.xml" class="hover:text-brand-400 transition-colors">Sitemap XML</a></li>
                     </ul>
                 </div>
 
@@ -1877,9 +1988,9 @@ if ($ulasan_table_exists) {
                   text: 'Punya pakaian layak pakai yang sudah tidak terpakai? Donasikan lewat Everware.',
                   cta: 'Pelajari Everwear', href: 'everwear.php', ext: true },
                 { badge: 'Di Rumahmu', icon: 'fa-trash-can', img: 'assets/trashsmart.jpg',
-                  title: 'Mau Tempat Sampah Pintar?',
-                  text: 'Ingin punya tempat sampah pintar yang bisa memilah sampah langsung di rumah? Kenali TrashSmart.',
-                  cta: 'Pelajari TrashSmart', href: 'trashsmart.php', ext: false },
+                  title: 'Mau Tempat Sampah Pintar PIRU?',
+                  text: 'Ingin punya tempat sampah pintar yang bisa memilah sampah langsung di lokasi dengan kamera AI? Kenali PIRU.',
+                  cta: 'Pelajari PIRU Smart Bin', href: 'piru.php', ext: false },
             ];
 
             const el = id => document.getElementById(id);

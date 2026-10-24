@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/includes/seo_helper.php';
 
 $logged_in = isset($_SESSION['user_id']);
 $dash_url = $logged_in ? ($_SESSION['role'] === 'admin' ? 'admin/dashboard.php' : 'customer/dashboard.php') : null;
@@ -46,8 +47,19 @@ $approved_reviews = $conn->query("SELECT ul.nama, ul.rating, ul.komentar, ul.cre
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ulasan â€” Trashily</title>
-    <meta name="description" content="Lihat testimoni masyarakat dan kirimkan ulasanmu ke Trashily." />
+
+    <?php 
+    render_seo_tags([
+        'title' => 'Testimoni & Ulasan Warga Bank Sampah | Trashily Bogor',
+        'description' => 'Baca ulasan dan pengalaman nyata masyarakat Bogor memilah sampah, menikmati layanan jemput sampah, dan menukarkan poin hadiah di Trashily.',
+        'keywords' => 'testimoni bank sampah, ulasan trashily bogor, pengalaman tukar sampah jadi uang, bank sampah digital terpercaya',
+        'canonical' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/ulasan.php',
+        'breadcrumbs' => [
+            'Beranda' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/',
+            'Ulasan Komunitas' => (isset($_SERVER['HTTPS']) ? "https://" : "http://") . ($_SERVER['HTTP_HOST'] ?? 'localhost') . BASE_URL . '/ulasan.php'
+        ]
+    ]);
+    ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -77,342 +89,10 @@ $approved_reviews = $conn->query("SELECT ul.nama, ul.rating, ul.komentar, ul.cre
     </style>
 </head>
 <body class="bg-slate-50">
-    <header id="navbar" class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/80 backdrop-blur-xl transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-            <a href="index.php" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl overflow-hidden group-hover:scale-105 transition-transform">
-                    <img src="assets/brand.png" alt="Trashily" class="w-full h-full object-contain">
-                </div>
-                <span class="font-display text-xl font-extrabold text-slate-900 group-hover:text-brand-700 transition-colors">Trashily<span class="text-brand-600">.</span></span>
-            </a>
-            
-            <!-- Desktop Navigation: Capsule with rounded border and blur at top, borderless on scroll -->
-            <nav id="navLinkWrapper" class="hidden lg:flex items-center gap-1 rounded-full border border-slate-200/80 bg-white/70 backdrop-blur-md px-5 py-2 shadow-sm transition-all duration-300">
-                <a href="index.php#tentang-kami" class="text-sm font-semibold text-slate-700 hover:text-brand-700 transition-colors px-3 py-1.5">Tentang Kami</a>
-                <a href="index.php#cara-kerja" class="text-sm font-semibold text-slate-700 hover:text-brand-700 transition-colors px-3 py-1.5">Cara Kerja</a>
-                <div id="layananNavTrigger" class="relative group/trigger">
-                    <button type="button" class="flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-800 transition-colors px-3 py-1.5">
-                        Layanan &amp; Inovasi <i class="fa-solid fa-chevron-down text-[10px] opacity-80 transition-transform duration-200" id="layananChevron"></i>
-                    </button>
-                </div>
-                <a href="index.php#faq" class="text-sm font-semibold text-slate-700 hover:text-brand-700 transition-colors px-3 py-1.5">FAQ</a>
-            </nav>
-
-            <div class="flex items-center gap-3">
-                <?php if ($logged_in): ?>
-                    <a href="<?= $dash_url ?>" class="hidden sm:inline-flex items-center gap-2 rounded-full bg-brand-600 text-white px-5 py-2.5 font-bold text-sm shadow-md hover:bg-brand-700 transition">
-                        <i class="fa-solid fa-gauge"></i> Dashboard
-                    </a>
-                    <button id="mobileMenuBtn" class="lg:hidden text-slate-700 hover:text-brand-700 p-2" aria-label="Menu">
-                        <i class="fa-solid fa-bars text-lg"></i>
-                    </button>
-                <?php else: ?>
-                    <a href="auth/login.php" class="hidden sm:inline-flex px-4 py-2 rounded-full text-slate-700 hover:text-brand-700 font-semibold">Masuk</a>
-                    <a href="auth/register.php" class="inline-flex items-center gap-2 rounded-full bg-brand-600 text-white px-5 py-2.5 font-bold text-sm shadow-md hover:bg-brand-700 transition">Daftar Gratis</a>
-                    <button id="mobileMenuBtn" class="lg:hidden text-slate-700 hover:text-brand-700 p-2" aria-label="Menu">
-                        <i class="fa-solid fa-bars text-lg"></i>
-                    </button>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <!-- Mega Menu Dropdown: Full Width, Direct Child of Header -->
-        <div id="megaMenuDropdown" class="absolute top-full left-0 right-0 w-full bg-white border-b border-slate-200 shadow-xl rounded-none opacity-0 invisible transition-all duration-200 pointer-events-none z-50 text-left before:content-[''] before:absolute before:-top-6 before:left-0 before:right-0 before:h-6 mt-0 border-t">
-            <div class="max-w-5xl mx-auto px-4 md:px-8 py-6">
-                <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
-                    <div class="flex items-center gap-2.5">
-                        <span class="w-2 h-2 rounded-full bg-brand-500"></span>
-                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Ekosistem &amp; Layanan Trashily</span>
-                    </div>
-                    <span class="text-xs text-slate-400 font-medium">Inovasi Bank Sampah Digital &bull; Edukasi &bull; IoT</span>
-                </div>
-
-                <!-- 2 Kiri, 2 Kanan Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                    <!-- Kiri: Inovasi & Gerakan Edukasi -->
-                    <div class="space-y-2">
-                        <!-- TrashSmart -->
-                        <a href="trashsmart.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
-                            <div class="text-brand-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
-                                <i class="fa-solid fa-trash-can-arrow-up"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2">
-                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-brand-600 transition-colors">TrashSmart</h4>
-                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-brand-50 text-brand-700">Baru &bull; IoT</span>
-                                </div>
-                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                                    Tempat sampah IoT edukatif dengan baki inspeksi, voice nudge, dan reward instan.
-                                </p>
-                            </div>
-                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
-                        </a>
-
-                        <!-- SmartKolecer -->
-                        <a href="smartkolecer.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
-                            <div class="text-brand-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
-                                <i class="fa-solid fa-fan"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2">
-                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-brand-600 transition-colors">SmartKolecer</h4>
-                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-slate-100 text-slate-600">IoT Edukasi</span>
-                                </div>
-                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                                    Baling-baling angin dari sampah daur ulang dengan pemantauan sensor digital.
-                                </p>
-                            </div>
-                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
-                        </a>
-
-                        <!-- GEMBUL -->
-                        <a href="gembul.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
-                            <div class="text-amber-500 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
-                                <i class="fa-solid fa-dice"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2">
-                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-amber-600 transition-colors">GEMBUL</h4>
-                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-50 text-amber-700">Creative Eco-Kit</span>
-                                </div>
-                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                                    Gerakan pilah sampah: Ular Tangga edukasi sekolah, magnet kulkas &amp; tantangan rumah.
-                                </p>
-                            </div>
-                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-amber-600 transition-all self-center"></i>
-                        </a>
-
-                        <!-- Everwear -->
-                        <a href="everwear.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
-                            <div class="text-brand-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
-                                <i class="fa-solid fa-shirt"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2">
-                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-brand-600 transition-colors">Everwear</h4>
-                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-brand-50 text-brand-700">Donasi Tekstil</span>
-                                </div>
-                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                                    Donasi baju layak pakai ke komunitas &amp; recycle tekstil dengan sistem poin Trashily.
-                                </p>
-                            </div>
-                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
-                        </a>
-                    </div>
-
-                    <!-- Kanan: Layanan, Komunitas & Jadwal -->
-                    <div class="space-y-2">
-                        <!-- Daftar Harga -->
-                        <a href="harga.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-slate-200 hover:bg-slate-50/80 transition-all duration-200">
-                            <div class="text-brand-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
-                                <i class="fa-solid fa-tags"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2">
-                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-brand-600 transition-colors">Daftar Harga</h4>
-                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-slate-100 text-slate-600">Katalog</span>
-                                </div>
-                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                                    Katalog nilai tukar poin dan rupiah transparan per kg untuk tiap kategori sampah.
-                                </p>
-                            </div>
-                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-brand-600 transition-all self-center"></i>
-                        </a>
-
-                        <!-- Ulasan Komunitas (Sedang Dilihat) -->
-                        <a href="ulasan.php" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-brand-300 hover:bg-brand-50/50 transition-all duration-200">
-                            <div class="text-brand-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
-                                <i class="fa-solid fa-comments"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2">
-                                    <h4 class="font-display font-bold text-sm text-brand-950">Ulasan Komunitas</h4>
-                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-brand-200 text-brand-900 border border-brand-300">Aktif</span>
-                                </div>
-                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                                    Cerita dan testimoni pengalaman nyata warga, sekolah, serta mitra Trashily.
-                                </p>
-                            </div>
-                            <i class="fa-solid fa-check text-xs text-brand-600 self-center"></i>
-                        </a>
-
-                        <!-- Jadwal Kegiatan Publik -->
-                        <a href="gembul.php#jadwal" class="group/item flex items-start gap-4 p-3.5 rounded-2xl border border-transparent hover:border-amber-200 hover:bg-amber-50/40 transition-all duration-200">
-                            <div class="text-amber-600 text-2xl pt-1 shrink-0 group-hover/item:scale-110 transition-transform">
-                                <i class="fa-solid fa-calendar-check"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2">
-                                    <h4 class="font-display font-bold text-sm text-slate-900 group-hover/item:text-amber-700 transition-colors">Jadwal Kegiatan</h4>
-                                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-100 text-amber-800">Publik</span>
-                                </div>
-                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                                    Lihat agenda roadshow sekolah, aksi bersih sungai, dan workshop daur ulang terbuka.
-                                </p>
-                            </div>
-                            <i class="fa-solid fa-arrow-right text-xs text-slate-300 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 group-hover/item:text-amber-600 transition-all self-center"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Bottom Quick Links Strip -->
-                <div class="mt-4 pt-3.5 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-3">
-                    <span class="text-slate-400 font-medium">Jelajahi Fitur Lainnya:</span>
-                    <div class="flex items-center gap-6 font-semibold">
-                        <a href="index.php#katalog" class="text-slate-600 hover:text-brand-600 transition-colors flex items-center gap-1.5">
-                            <i class="fa-solid fa-recycle text-brand-600 text-xs"></i> Direktori Sampah
-                        </a>
-                        <a href="index.php#ekosistem" class="text-slate-600 hover:text-brand-600 transition-colors flex items-center gap-1.5">
-                            <i class="fa-solid fa-cubes text-brand-600 text-xs"></i> Keunggulan Ekosistem
-                        </a>
-                        <a href="index.php#rewards" class="text-slate-600 hover:text-brand-600 transition-colors flex items-center gap-1.5">
-                            <i class="fa-solid fa-gift text-brand-600 text-xs"></i> Program Hadiah
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation Drawer -->
-        <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white">
-            <nav class="max-w-7xl mx-auto px-4 py-4 space-y-1">
-                <a href="index.php#tentang-kami" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-slate-100">Tentang Kami</a>
-                <a href="index.php#cara-kerja" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-slate-100">Cara Kerja</a>
-                <a href="index.php#katalog" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-slate-100">Direktori Sampah</a>
-
-                <!-- Sub-menu Section for Mobile -->
-                <div class="py-2 border-b border-slate-100 space-y-1">
-                    <p class="px-4 text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Layanan &amp; Inovasi</p>
-                    <a href="trashsmart.php" class="flex items-center justify-between px-4 py-2 text-slate-800 font-bold hover:text-brand-600">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-trash-can-arrow-up text-brand-600 text-sm"></i> TrashSmart</span>
-                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-brand-100 text-brand-700">Baru</span>
-                    </a>
-                    <a href="smartkolecer.php" class="flex items-center justify-between px-4 py-2 text-slate-800 font-semibold hover:bg-slate-100">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-fan text-sky-600 text-sm"></i> SmartKolecer</span>
-                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-sky-100 text-sky-700">IoT</span>
-                    </a>
-                    <a href="gembul.php" class="flex items-center justify-between px-4 py-2 text-slate-800 font-bold hover:text-amber-600">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-dice text-amber-500 text-sm"></i> GEMBUL</span>
-                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-amber-100 text-amber-700">Eco-Kit</span>
-                    </a>
-                    <a href="everwear.php" class="flex items-center justify-between px-4 py-2 text-slate-800 font-bold hover:text-brand-600">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-shirt text-brand-600 text-sm"></i> Everwear</span>
-                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-brand-100 text-brand-700">Donasi</span>
-                    </a>
-                    <a href="harga.php" class="block px-4 py-2 text-slate-800 font-semibold hover:bg-slate-100">Daftar Harga</a>
-                    <a href="ulasan.php" class="block px-4 py-2 rounded-lg font-bold bg-brand-50 text-brand-700">Ulasan Pengguna</a>
-                </div>
-                <a href="index.php#ekosistem" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-slate-100">Keunggulan</a>
-                <a href="index.php#rewards" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-slate-100">Hadiah</a>
-                <a href="index.php#faq" class="block px-4 py-2.5 rounded-lg text-slate-800 font-semibold hover:bg-slate-100">FAQ</a>
-            </nav>
-        </div>
-    </header>
-
-    <script>
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
-        });
-
-        /* Navbar Dynamic Scroll: blur & rounded pill at top, solid white borderless on scroll */
-        function applySubpageNavbarState() {
-            const nav = document.getElementById('navbar');
-            const navLinkWrapper = document.getElementById('navLinkWrapper');
-            const isScrolled = window.scrollY > 20;
-
-            if (nav) {
-                nav.classList.toggle('bg-white', isScrolled);
-                nav.classList.toggle('border-slate-200', isScrolled);
-                nav.classList.toggle('shadow-sm', isScrolled);
-
-                nav.classList.toggle('bg-white/80', !isScrolled);
-                nav.classList.toggle('border-slate-200/80', !isScrolled);
-                nav.classList.toggle('backdrop-blur-xl', !isScrolled);
-            }
-
-            if (navLinkWrapper) {
-                // Di paling atas: tetap blur dan rounded border pertahanin
-                navLinkWrapper.classList.toggle('rounded-full', !isScrolled);
-                navLinkWrapper.classList.toggle('border', !isScrolled);
-                navLinkWrapper.classList.toggle('border-slate-200/80', !isScrolled);
-                navLinkWrapper.classList.toggle('bg-white/70', !isScrolled);
-                navLinkWrapper.classList.toggle('backdrop-blur-md', !isScrolled);
-                navLinkWrapper.classList.toggle('px-5', !isScrolled);
-                navLinkWrapper.classList.toggle('py-2', !isScrolled);
-                navLinkWrapper.classList.toggle('shadow-sm', !isScrolled);
-
-                // Pas di scroll: tanpa border di daftar menunya
-                navLinkWrapper.classList.toggle('border-transparent', isScrolled);
-                navLinkWrapper.classList.toggle('bg-transparent', isScrolled);
-                navLinkWrapper.classList.toggle('shadow-none', isScrolled);
-                navLinkWrapper.classList.toggle('px-0', isScrolled);
-                navLinkWrapper.classList.toggle('py-0', isScrolled);
-            }
-
-            const megaMenuDropdown = document.getElementById('megaMenuDropdown');
-            if (megaMenuDropdown) {
-                // Di paling atas: full width dan dibuat agak kebawah dikit (mt-3 & border-t)
-                // Pas di scroll: nempel flush di bawah navbar (mt-0 & border-t-0)
-                megaMenuDropdown.classList.toggle('mt-0', !isScrolled);
-                megaMenuDropdown.classList.toggle('border-t', !isScrolled);
-                megaMenuDropdown.classList.toggle('mt-0', isScrolled);
-                megaMenuDropdown.classList.toggle('border-t-0', isScrolled);
-            }
-        }
-        applySubpageNavbarState();
-        window.addEventListener('scroll', applySubpageNavbarState);
-
-        /* Desktop Mega Menu Dropdown Interaction */
-        (function initMegaMenu() {
-            const trigger = document.getElementById('layananNavTrigger');
-            const dropdown = document.getElementById('megaMenuDropdown');
-            const chevron = document.getElementById('layananChevron');
-            let timer;
-
-            if (!trigger || !dropdown) return;
-
-            const openMenu = () => {
-                clearTimeout(timer);
-                dropdown.classList.remove('opacity-0', 'invisible', 'pointer-events-none');
-                dropdown.classList.add('opacity-100', 'visible', 'pointer-events-auto');
-                if (chevron) chevron.classList.add('rotate-180');
-            };
-
-            const closeMenu = () => {
-                timer = setTimeout(() => {
-                    dropdown.classList.add('opacity-0', 'invisible', 'pointer-events-none');
-                    dropdown.classList.remove('opacity-100', 'visible', 'pointer-events-auto');
-                    if (chevron) chevron.classList.remove('rotate-180');
-                }, 150);
-            };
-
-            trigger.addEventListener('mouseenter', openMenu);
-            trigger.addEventListener('mouseleave', closeMenu);
-            dropdown.addEventListener('mouseenter', openMenu);
-            dropdown.addEventListener('mouseleave', closeMenu);
-
-            const triggerBtn = trigger.querySelector('button');
-            if (triggerBtn) {
-                triggerBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if (dropdown.classList.contains('opacity-100')) {
-                        closeMenu();
-                    } else {
-                        openMenu();
-                    }
-                });
-            }
-
-            document.addEventListener('click', (e) => {
-                if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
-                    dropdown.classList.add('opacity-0', 'invisible', 'pointer-events-none');
-                    dropdown.classList.remove('opacity-100', 'visible', 'pointer-events-auto');
-                    if (chevron) chevron.classList.remove('rotate-180');
-                }
-            });
-        })();
-    </script>
+    <?php
+    $active_nav = 'ulasan';
+    include __DIR__ . '/includes/public_navbar.php';
+    ?>
 
     <main class="max-w-6xl mx-auto px-4 py-16 md:py-20">
         <section class="mb-12 text-center">
@@ -515,22 +195,11 @@ $approved_reviews = $conn->query("SELECT ul.nama, ul.rating, ul.komentar, ul.cre
     </main>
 
     <!-- FOOTER -->
-    <footer class="mt-20 bg-slate-900 text-slate-400 py-12 px-4 md:px-8 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
-            <p>&copy; <?= date('Y') ?> <strong>Trashily</strong>. Hak Cipta Dilindungi.</p>
-            <div class="flex items-center gap-4">
-                <a href="trashsmart.php" class="text-slate-300 hover:text-white transition">TrashSmart</a>
-                <a href="smartkolecer.php" class="text-slate-300 hover:text-white transition">SmartKolecer</a>
-                <a href="gembul.php" class="text-amber-400 hover:text-amber-300 transition font-bold">GEMBUL</a>
-                <a href="harga.php" class="text-slate-300 hover:text-white transition">Daftar Harga</a>
-                <a href="ulasan.php" class="text-slate-300 hover:text-white transition">Ulasan</a>
-            </div>
-        </div>
-    </footer>
+    <?php include __DIR__ . '/includes/public_footer.php'; ?>
 
     <script>
         const ratingContainer = document.getElementById('ratingContainer');
-        const stars = ratingContainer.querySelectorAll('i[data-star]');
+        const stars = ratingContainer ? ratingContainer.querySelectorAll('i[data-star]') : [];
         const radioInputs = document.querySelectorAll('input[name="rating"]');
 
         // Function to update star display
@@ -549,7 +218,8 @@ $approved_reviews = $conn->query("SELECT ul.nama, ul.rating, ul.komentar, ul.cre
         stars.forEach(star => {
             star.addEventListener('click', function() {
                 const starNum = parseInt(this.getAttribute('data-star'));
-                document.getElementById(`star-${starNum}`).checked = true;
+                const input = document.getElementById(`star-${starNum}`);
+                if (input) input.checked = true;
                 updateStars(starNum);
             });
 
@@ -568,11 +238,13 @@ $approved_reviews = $conn->query("SELECT ul.nama, ul.rating, ul.komentar, ul.cre
         });
 
         // Reset on mouse leave
-        ratingContainer.addEventListener('mouseleave', function() {
-            const checkedInput = document.querySelector('input[name="rating"]:checked');
-            const rating = checkedInput ? parseInt(checkedInput.value) : 0;
-            updateStars(rating);
-        });
+        if (ratingContainer) {
+            ratingContainer.addEventListener('mouseleave', function() {
+                const checkedInput = document.querySelector('input[name="rating"]:checked');
+                const rating = checkedInput ? parseInt(checkedInput.value) : 0;
+                updateStars(rating);
+            });
+        }
 
         // Initialize on page load
         const initialRating = document.querySelector('input[name="rating"]:checked');
@@ -580,9 +252,6 @@ $approved_reviews = $conn->query("SELECT ul.nama, ul.rating, ul.komentar, ul.cre
             updateStars(parseInt(initialRating.value));
         }
     </script>
-
-    <!-- FLOATING CHATBOT AI -->
-    <?php include __DIR__ . '/includes/chatbot.php'; ?>
 </body>
 </html>
 

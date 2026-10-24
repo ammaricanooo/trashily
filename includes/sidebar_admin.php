@@ -9,6 +9,7 @@ if (!isset($conn)) {
 $nav_jemput_count = 0;
 $nav_penukaran_count = 0;
 $nav_ts_warn_count = 0;
+$nav_piru_active_count = 0;
 
 if (isset($conn)) {
     $r_j = $conn->query("SELECT COUNT(*) as c FROM jemput_sampah WHERE status NOT IN ('selesai', 'batal')");
@@ -19,6 +20,9 @@ if (isset($conn)) {
 
     $r_ts = $conn->query("SELECT COUNT(*) as c FROM trashsmart_devices WHERE status = 'warning'");
     if ($r_ts) $nav_ts_warn_count = intval($r_ts->fetch_assoc()['c'] ?? 0);
+
+    $r_piru = $conn->query("SELECT COUNT(*) as c FROM piru_sessions WHERE status = 'active'");
+    if ($r_piru) $nav_piru_active_count = intval($r_piru->fetch_assoc()['c'] ?? 0);
 }
 ?>
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
@@ -79,9 +83,22 @@ if (isset($conn)) {
                 <span class="nav-badge-pill"><?= $nav_ts_warn_count ?></span>
                 <?php endif; ?>
             </a>
+            <a href="<?= BASE_URL ?>/admin/monitoring-piru.php" class="nav-item <?= ($current === 'monitoring-piru.php') ? 'active' : '' ?>">
+                <i class="fa-solid fa-microchip"></i>
+                <span>PIRU Smart Bin</span>
+                <?php if (($nav_piru_active_count ?? 0) > 0): ?>
+                <span class="nav-badge-pill" style="background:#10b981;"><?= $nav_piru_active_count ?></span>
+                <?php else: ?>
+                <span class="nav-badge-pill" style="background:rgba(0,110,47,0.15);color:#006e2f;font-size:0.6rem;font-weight:800;">AI IoT</span>
+                <?php endif; ?>
+            </a>
             <a href="<?= BASE_URL ?>/admin/kelola-gembul.php" class="nav-item <?= ($current === 'kelola-gembul.php') ? 'active' : '' ?>">
                 <i class="fa-solid fa-gamepad"></i>
                 <span>Kegiatan GEMBUL</span>
+            </a>
+            <a href="<?= BASE_URL ?>/admin/kelola-artikel.php" class="nav-item <?= ($current === 'kelola-artikel.php') ? 'active' : '' ?>">
+                <i class="fa-solid fa-newspaper"></i>
+                <span>Kelola Artikel &amp; SEO</span>
             </a>
             <a href="<?= BASE_URL ?>/admin/everwear/dashboard.php" class="nav-item">
                 <i class="fa-solid fa-shirt"></i> Ke Admin Everwear

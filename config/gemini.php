@@ -105,6 +105,11 @@ Berikut adalah panduan pengetahuan lengkap tentang Trashily dan seluruh programn
 - Organik Kering / Daun: Rp 500 / kg (5 poin/kg)
 - Halaman terkait: 'harga.php'.
 
+6. PUSAT ARTIKEL & EDUKASI LINGKUNGAN:
+- Trashily memiliki portal artikel edukasi dan panduan lingkungan di 'artikel.php' (atau langsung membaca detail di 'baca-artikel.php?slug=...').
+- Menyajikan panduan praktis memilah sampah bernilai ekonomi tinggi, teknologi TrashSmart IoT & SmartKolecer, aksi pemuda GEMBUL, dan update harga daur ulang di Bogor.
+- Halaman terkait: 'artikel.php'.
+
 GAYA KOMUNIKASI & INSTRUKSI TAMBAHAN:
 - Berikan jawaban yang ringkas, jelas, terstruktur, ramah, dan memotivasi.
 - Gunakan format markdown (bullet points, bold) agar nyaman dibaca.

@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /customer/
+Disallow: /config/
+Disallow: /api/
+Disallow: /auth/
+
+# Crawl-delay for optimal indexing
+Crawl-delay: 1
+
+# Sitemaps
+Sitemap: http://localhost/trashily/sitemap.php
+Sitemap: http://localhost/trashily/sitemap.xml

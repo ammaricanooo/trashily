@@ -1,9 +1,9 @@
-# Trashily — Apache config untuk shared hosting cPanel
+# Trashily — Apache config untuk shared hosting & local server
+# Disetel untuk performa tinggi & SEO maksimal
 
 # Aktifkan PHP error logging (nonaktifkan display_errors di production)
 php_flag display_errors Off
 php_flag log_errors On
-php_value error_log /home/cpanelusername/logs/php_errors.log
 
 # Charset default
 AddDefaultCharset UTF-8
@@ -19,3 +19,41 @@ Options -Indexes
 
 # Pastikan PHP berjalan
 AddType application/x-httpd-php .php
+
+# ==========================================
+# SEO Clean URLs & Rewrite Rules
+# ==========================================
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /trashily/
+
+    # Sitemap XML rewrite
+    RewriteRule ^sitemap\.xml$ sitemap.php [L,QSA]
+
+    # Clean URL artikel
+    RewriteRule ^artikel/?$ artikel.php [L,QSA]
+    RewriteRule ^artikel/([a-zA-Z0-9_-]+)/?$ baca-artikel.php?slug=$1 [L,QSA]
+
+    # Clean URL PIRU Smart Bin
+    RewriteRule ^piru/?$ piru.php [L,QSA]
+    RewriteRule ^trashsmart/?$ piru.php [L,QSA]
+</IfModule>
+
+# ==========================================
+# GZIP Compression & Browser Caching untuk Core Web Vitals
+# ==========================================
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>

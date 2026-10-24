@@ -120,6 +120,11 @@ if ($next_hadiah) {
 
                             <!-- Action buttons -->
                             <div class="flex gap-3 flex-wrap">
+                                <a href="piru.php"
+                                   class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold shadow-md transition transform hover:-translate-y-0.5"
+                                   style="background:#22c55e;color:#052e16">
+                                    <i class="fa-solid fa-qrcode text-xs"></i> PIRU Smart Bin
+                                </a>
                                 <a href="setor.php"
                                    class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold"
                                    style="background:#fff;color:var(--color-primary-dark)">

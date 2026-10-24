@@ -167,7 +167,12 @@ function lihatDetail(id) {
                 </div>
                 <div style="font-weight:600;margin-bottom:.5rem;font-size:.875rem">Item yang Disetor:</div>
                 ${itemsHtml}
-                <div style="margin-top:.75rem" class="text-muted text-small">Tanggal: ${t.tanggal}</div>`;
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1rem;padding-top:.75rem;border-top:1px dashed var(--border)">
+                    <div class="text-muted text-small"><i class="fa-regular fa-calendar mr-1"></i>${t.tanggal}</div>
+                    <a href="export-session-pdf.php?transaksi_id=${t.id}" target="_blank" class="btn btn-sm" style="display:inline-flex;align-items:center;gap:6px;background:#e11d48;color:#fff;font-size:.78rem;font-weight:700;padding:.35rem .75rem;border-radius:8px;text-decoration:none;">
+                        <i class="fa-solid fa-file-pdf"></i> Unduh Struk PDF
+                    </a>
+                </div>`;
         });
 }
 </script>
